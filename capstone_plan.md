@@ -1,14 +1,17 @@
 # Capstone Plan
 
 ## Initial Planning
-  what are the assumptions about the data
+- [] what are the assumptions about the data
     * I will find correlations between features and my target
-    * Some of my 'free will' features 
-  inputs/outputs
-  mock schedule
-  
+    * Some of my 'free will' features will be correlated with nonfreewill demographics - address this
+    * I will have enough people per the 23 occupation groups to treat them as separate datasets
+    * Occupation codes are representative of reality. Since we know this is only partially true, cluster a new target?
+- [] inputs/outputs
+    * csv file for CA, unless there is not enough data, then csv for entire US
+- [] schedule
+    *
 - [x] put data in an S3 bucket
-- [] make github repo for project
+- [x] make github repo for project
 
 
 ## Scrum Meetings
@@ -41,5 +44,5 @@ reports
 
 ## Project Names
 
-Free Will and Choice of Occupation
-Predictors of Occupation
+* Free Will and Choice of Occupation
+* Predictors of Occupation
