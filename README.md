@@ -1,10 +1,16 @@
 # Capstone Plan
 
-## Research Questions, from easy to hard
-* Is college major a good predictor of occupation code? Expecting no.
-* What are the strongest predictors of occupation code given 15 'free will' features from the PUMS census?
+## Research Questions, from simpler to more complex
+### freewill features - computer occupations - binary classification
+* Is college major a good predictor of occupation code 150000 (Computer and mathematical occupations) in CA in 2017 for employed people 30 years old or under? Expecting no. 
+* What are the strongest predictors of occupation code 150000 given 15 'free will' features from the PUMS census (incl major)?
+### freewill features - all occupations - multiclass classification
+* Is college major a good predictor of any occupation code in CA in 2017 for employed people 30 years old or under? Expecting no.
+* What are the strongest predictors of occupation code given 15 'free will' features from the PUMS census (incl major)?
+### Non-freewill features - correlation
 * Of those features, which are most correlated with non-freewill features and what does that mean?
 * Which of any of the features are good predictors of occupation code?
+### Engineered Target - clustering?
 * What changes if I engineer my occupation target from occupation code, industry, other things?
 
 ## Initial Planning
