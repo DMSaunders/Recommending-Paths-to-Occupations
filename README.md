@@ -1,12 +1,15 @@
 # Capstone Plan
 
-## Research Questions, from simpler to more complex
+## Research Questions
+from simpler to more complex
 ### freewill features - computer occupations - binary classification
-* Is college major a good predictor of occupation code 150000 (Computer and mathematical occupations) in CA in 2017 for employed people 30 years old or under? Expecting no. 
+* Is college major a good predictor of occupation code 150000 (Computer and mathematical occupations) in CA in 2017 for people 30 years old or under? Expecting no. 
 * What are the strongest predictors of occupation code 150000 given 15 'free will' features from the PUMS census (incl major)?
 ### freewill features - all occupations - multiclass classification
 * Is college major a good predictor of any occupation code in CA in 2017 for employed people 30 years old or under? Expecting no.
 * What are the strongest predictors of occupation code given 15 'free will' features from the PUMS census (incl major)?
+### freewill features - single occupation, probably requires multi-year data
+* What are the strongest predictors of a single occupation code given 15 'free will' features from the PUMS census (incl major)?
 ### Non-freewill features - correlation
 * Of those features, which are most correlated with non-freewill features and what does that mean?
 * Which of any of the features are good predictors of occupation code?
@@ -57,3 +60,10 @@ reports
 
 * Free Will and Choice of Occupation
 * Predictors of Occupation
+
+## Sample sizes
+### CA 2017
+w/ occupation code = 220772, 58% of PUMS
+under 30 = 144479, 38% of PUMS
+youngemp = both w/ occupation code and under 30 = 56211, 15% of PUMS
+computer&math occupation under 30 = 1662, .4% of PUMS, 3% of youngemp
