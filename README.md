@@ -17,12 +17,12 @@ from simpler to more complex
 * What changes if I engineer my occupation target from occupation code, industry, other things?
 
 ## Initial Planning
-- [] what are the assumptions about the data
+- what are the assumptions about the data
     * I will find correlations between features and my target
     * Some of my 'free will' features will be correlated with nonfreewill demographics - address this
     * I will have enough people per the 23 occupation groups to treat them as separate datasets
     * Occupation codes are representative of reality. Since we know this is only partially true, cluster a new target?
-- [] inputs/outputs
+- inputs/outputs
     * csv file for CA, unless there is not enough data, then csv for entire US
 - get through the CRISP DM as fast as possible!! Then repeat
 
@@ -63,10 +63,10 @@ reports
 
 ## Sample sizes
 ### CA 2017
-w/ occupation code = 220772, 58% of PUMS
-under 30 = 144479, 38% of PUMS
-youngemp = both w/ occupation code and under 30 = 56211, 15% of PUMS
-computer&math occupation under 30 = 1662, .4% of PUMS, 3% of 
+* w/ occupation code = 218454, 58% of PUMS
+* under 30 = 144479, 38% of PUMS #get under 35
+* youngemp = both w/ occupation code and under 35 = 77406, 21% of PUMS
+* computer&math occupation under 35 = 2792, .7% of PUMS, 4% of youngemp
 
 ## Metrics
 https://medium.com/usf-msds/choosing-the-right-metric-for-evaluating-machine-learning-models-part-2-86d5649a5428
