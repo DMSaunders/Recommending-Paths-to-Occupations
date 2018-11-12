@@ -66,4 +66,7 @@ reports
 w/ occupation code = 220772, 58% of PUMS
 under 30 = 144479, 38% of PUMS
 youngemp = both w/ occupation code and under 30 = 56211, 15% of PUMS
-computer&math occupation under 30 = 1662, .4% of PUMS, 3% of youngemp
+computer&math occupation under 30 = 1662, .4% of PUMS, 3% of 
+
+## Metrics
+https://medium.com/usf-msds/choosing-the-right-metric-for-evaluating-machine-learning-models-part-2-86d5649a5428
