@@ -23,35 +23,35 @@
 ,11-1011,0010- Chief executives
 ,11-1031,0030- Legislators
 20,11-1021,General and operations managers
-40,Nov-11,Advertising and promotions managers
-50,Nov-20,Marketing and sales managers
-60,Nov-31,Public relations and fundraising managers
-100,Nov-11,Administrative services managers
-110,Nov-21,Computer and information systems managers
-120,Nov-31,Financial managers
-135,Nov-11,Compensation and benefits managers
-136,Nov-21,Human resources managers
-137,Nov-31,Training and development managers
-140,Nov-51,Industrial production managers
-150,Nov-61,Purchasing managers
-160,Nov-71,"Transportation, storage, and distribution managers"
-205,Nov-13,"Farmers, ranchers, and other agricultural managers"
-220,Nov-21,Construction managers
-230,Nov-30,Education administrators
-300,Nov-41,Architectural and engineering managers
-310,Nov-51,Food service managers
-330,Nov-71,Gaming managers
-340,Nov-81,Lodging managers
-350,Nov-11,Medical and health services managers
-360,Nov-21,Natural sciences managers
-410,Nov-41,"Property, real estate, and community association managers"
-420,Nov-51,Social and community service managers
-425,Nov-61,Emergency management directors
+40,11-2011,Advertising and promotions managers
+50,11-2020,Marketing and sales managers
+60,11-2031,Public relations and fundraising managers
+100,11-3011,Administrative services managers
+110,11-3021,Computer and information systems managers
+120,11-3031,Financial managers
+135,11-3111,Compensation and benefits managers
+136,11-3121,Human resources managers
+137,11-3131,Training and development managers
+140,11-3051,Industrial production managers
+150,11-3061,Purchasing managers
+160,11-3071,"Transportation, storage, and distribution managers"
+205,11-9013,"Farmers, ranchers, and other agricultural managers"
+220,11-9021,Construction managers
+230,11-9030,Education administrators
+300,11-9041,Architectural and engineering managers
+310,11-9051,Food service managers
+330,11-9071,Gaming managers
+340,11-9081,Lodging managers
+350,11-9111,Medical and health services managers
+360,11-9121,Natural sciences managers
+410,11-9141,"Property, real estate, and community association managers"
+420,11-9151,Social and community service managers
+425,11-9161,Emergency management directors
 430,11-9XXX,"Miscellaneous managers, including funeral service managers and postmasters and mail superintendents"
 ,Combines:,
-,Nov-61,0325-Funeral service managers
-,Nov-31,0400-Postmasters and mail superintendents
-,Nov-99,"0430-Managers, all other"
+,11-9061,0325-Funeral service managers
+,11-9131,0400-Postmasters and mail superintendents
+,11-9199,"0430-Managers, all other"
 ,,
 0500-0950,13-0000,Business and Financial Operations Occupations:
 ,,
@@ -757,9 +757,3 @@
 9830,559830,"Military, rank not specified"
 ,,
 9920,999920,"Unemployed, with no work experience in the last 5 years or earlier or never worked"
-,,Note:
-,,There are 22 SOC occupation titles that do not have an exact match to a Census occupation code. These 22 SOC codes
-,,are aggregated to create a match to 1 Census occupation code. 
-,,
-,,"The remaining 101 aggregated categories were combined for confidentiality reasons, including because the category"
-,,"contained fewer than 10,000 people nationwide."

@@ -8,32 +8,66 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
+def load_dfs():
 
-SOCP_labels = {'11': 'Management', 
-               '13': 'Business and Financial Operations', 
-               '15': 'Computer and Mathematical', 
-               '17': 'Architecture and Engineering', 
-               '19': 'Life, Physical, and Social Science', 
-               '21': 'Community and Social Service', 
-               '23': 'Legal', 
-               '25': 'Education, Training, and Library', 
-               '27': 'Arts, Design, Entertainment, Sports, and Media', 
-               '29': 'Healthcare Practitioners and Technical', 
-               '31': 'Healthcare Support',
-               '33': 'Protective Service',
-               '35': 'Food Preparation and Serving Related',
-               '37': 'Building and Grounds Cleaning and Maintenance',
-               '39': 'Personal Care and Service',
-               '41': 'Sales and Related',
-               '43': 'Office and Administrative Support',
-               '45': 'Farming, Fishing, and Forestry',
-               '47': 'Construction and Extraction',
-               '49': 'Installation, Maintenance, and Repair',
-               '51': 'Production',
-               '53': 'Transportation and Material Moving',
-               '55': 'Military Specific'}
+    df = pd.read_csv('~/galv/ACS-PUMS-data/csv_pca/psam_p06.csv')
 
-def clean_that_target(df) -> 'df':
+    fieldofdegree_df = pd.read_csv('~/galv/capstone/resources/ACSPUMS2017CodeLists-FieldofDegree.csv', 
+                            header=2, usecols=['2017 PUMS code', '2017 PUMS Field of Degree Description'])
+
+    SOCP_labels = {'11': 'Management', 
+                '13': 'Business and Financial Operations', 
+                '15': 'Computer and Mathematical', 
+                '17': 'Architecture and Engineering', 
+                '19': 'Life, Physical, and Social Science', 
+                '21': 'Community and Social Service', 
+                '23': 'Legal', 
+                '25': 'Education, Training, and Library', 
+                '27': 'Arts, Design, Entertainment, Sports, and Media', 
+                '29': 'Healthcare Practitioners and Technical', 
+                '31': 'Healthcare Support',
+                '33': 'Protective Service',
+                '35': 'Food Preparation and Serving Related',
+                '37': 'Building and Grounds Cleaning and Maintenance',
+                '39': 'Personal Care and Service',
+                '41': 'Sales and Related',
+                '43': 'Office and Administrative Support',
+                '45': 'Farming, Fishing, and Forestry',
+                '47': 'Construction and Extraction',
+                '49': 'Installation, Maintenance, and Repair',
+                '51': 'Production',
+                '53': 'Transportation and Material Moving',
+                '55': 'Military Specific'}
+
+    schl_labels = {'1':'No schooling completed',
+                '2':"Nursery school, preschool",
+                '3':"Kindergarten",
+                '4':"Grade 1",
+                '5':"Grade 2",
+                '6':"Grade 3",
+                '7':"Grade 4",
+                '8':"Grade 5",
+                '9':"Grade 6",
+                '10':"Grade 7",
+                '11':"Grade 8",
+                '12':"Grade 9",
+                '13':"Grade 10",
+                '14':"Grade 11",
+                '15':"12th grade - no diploma",
+                '16':"Regular high school diploma",
+                '17':"GED or alternative credential",
+                '18':"Some college, but less than 1 year",
+                '19':"1 or more years of college credit, no degree",
+                '20':"Associate's degree",
+                '21':"Bachelor's degree",
+                '22':"Master's degree",
+                '23':"Professional degree beyond a bachelor's degree",
+                '24':"Doctorate degree"}
+
+    return df, fieldofdegree_df, SOCP_labels, schl_labels
+
+
+def clean_that_target(df, SOCP_labels) -> 'df':
 
     #new df with nan in SOCP dropped
     SOCPdf = df.dropna(axis='index', subset=['SOCP'])[df.SOCP != '999920']
@@ -59,7 +93,8 @@ def clean_that_target(df) -> 'df':
 
     return youngemp_df
 
-def create_edu_df(df) -> 'df':
+
+def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
 
     print('Number of degree fields present (max 173): {}'.format(youngemp_df.FOD1P.value_counts().count()))
 
@@ -90,39 +125,20 @@ def create_edu_df(df) -> 'df':
     #create edu_df limited to edu features
     edu_df = FOD2P_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'FOD1P', 'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL']]
 
-    schl_labels = {'1':'No schooling completed',
-                    '2':"Nursery school, preschool",
-                    '3':"Kindergarten",
-                    '4':"Grade 1",
-                    '5':"Grade 2",
-                    '6':"Grade 3",
-                    '7':"Grade 4",
-                    '8':"Grade 5",
-                    '9':"Grade 6",
-                    '10':"Grade 7",
-                    '11':"Grade 8",
-                    '12':"Grade 9",
-                    '13':"Grade 10",
-                    '14':"Grade 11",
-                    '15':"12th grade - no diploma",
-                    '16':"Regular high school diploma",
-                    '17':"GED or alternative credential",
-                    '18':"Some college, but less than 1 year",
-                    '19':"1 or more years of college credit, no degree",
-                    '20':"Associate's degree",
-                    '21':"Bachelor's degree",
-                    '22':"Master's degree",
-                    '23':"Professional degree beyond a bachelor's degree",
-                    '24':"Doctorate degree"}
-    
     #create column for SCHL label names
     edu_df.SCHL = edu_df.SCHL.astype(int).astype(str)
     edu_df['SCHL_labels'] = edu_df.SCHL.map(schl_labels)
+    edu_df['SCHL_ord'] = edu_df.SCHL.astype(int)
+
+    print(edu_df.info(memory_usage='deep')) # check for no missing data
+
+    edu_df = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'])
+
+    return edu_df
 
 
-if __name__ == "__main__":
-    #load dfs
-    df = pd.read_csv('~/galv/ACS-PUMS-data/csv_pca/psam_p06.csv')
+
+
+# if __name__ == "__main__":
+#     pass
     
-    fieldofdegree_df = pd.read_csv('~/galv/capstone/resources/ACSPUMS2017CodeLists-FieldofDegree.csv', 
-                               header=2, usecols=['2017 PUMS code', '2017 PUMS Field of Degree Description'])
