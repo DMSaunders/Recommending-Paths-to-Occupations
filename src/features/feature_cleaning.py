@@ -132,7 +132,7 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
 
     print(edu_df.info(memory_usage='deep')) # check for no missing data
 
-    edu_df = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'])
+    edu_df = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'], drop_first=False)
 
     return edu_df
 
