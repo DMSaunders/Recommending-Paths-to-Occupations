@@ -1,8 +1,5 @@
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-from pandas.tools.plotting import scatter_matrix
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -69,11 +66,14 @@ def load_dfs() -> 'dfs':
 
     NAICSP_labels_df = pd.read_csv('~/galv/capstone/resources/NAICScode.csv', header=None, names=['code','NAICSP_labels'])
 
-    return df, fieldofdegree_df, SOCP_labels, schl_labels, major_majors, NAICSP_labels_df
+    MAJ_NAICSP_labels_df = pd.read_csv('~/galv/capstone/resources/MAJ_NAICS_labels.csv', header=None, names=['code','MAJ_NAICSP_labels'])
+    MAJ_NAICSP_labels_df.code = MAJ_NAICSP_labels_df.code.astype(str)
+
+    return df, fieldofdegree_df, SOCP_labels, schl_labels, major_majors, NAICSP_labels_df, MAJ_NAICSP_labels_df
 
 
 def clean_that_target(df, SOCP_labels) -> 'df':
-    '''prepares the target variable SOCP for use in all subsequent dfs, and filters the rows for my desired sample'''
+    '''prepares the target variable SOCP for use in all subsestrquent dfs, and filters the rows for my desired sample'''
 
     #new df with nan in SOCP dropped
     SOCPdf = df.dropna(axis='index', subset=['SOCP'])[df.SOCP != '999920']
@@ -155,15 +155,28 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
     return edu_df
 
 
-def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df) -> 'df':
+def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df, MAJ_NAICSP_labels_df) -> 'df':
     '''df used to examine relationships between NAICS and SOCP, for clustering a new target'''
 
     NAICSP_SOCP_df = youngemp_df[['SERIALNO', 'SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'NAICSP']]
+    #merge naicsp labels
     NAICSP_SOCP_df = NAICSP_SOCP_df.merge(NAICSP_labels_df, how='left', left_on='NAICSP', right_on='code')
     NAICSP_SOCP_df.drop(columns=['code'], inplace=True)
     NAICSP_SOCP_df.NAICSP_labels = NAICSP_SOCP_df.NAICSP_labels.fillna(9999)
-    NAICSP_SOCP_df['MAJ_NAICSP'] = NAICSP_SOCP_df.NAICSP_labels.str.slice(start=0, stop=3)
+    NAICSP_SOCP_df['MAJ_NAICSP'] = NAICSP_SOCP_df.NAICSP.str.slice(start=0, stop=2)
     print(NAICSP_SOCP_df.info(memory_usage='deep')) # check for no missing data
+    NAICSP_SOCP_df.MAJ_NAICSP = NAICSP_SOCP_df.MAJ_NAICSP.fillna(999)
+    print(NAICSP_SOCP_df.info(memory_usage='deep')) # check for no missing data
+    
+    #merge maj naicsp labels
+    NAICSP_SOCP_df = NAICSP_SOCP_df.merge(MAJ_NAICSP_labels_df, how='left', left_on='MAJ_NAICSP', right_on='code')
+    NAICSP_SOCP_df.drop(columns=['code'], inplace=True)
+
+    #make dummies
+    dummies = pd.get_dummies(NAICSP_SOCP_df, columns=['MAJ_SOCP_labels', 'MAJ_NAICSP_labels'], prefix=['MAJ_SOCP_', 'MAJ_NAICSP_'], drop_first=False)
+    NAICSP_SOCP_df = pd.concat([NAICSP_SOCP_df, dummies], axis=1) # why is this duplicating my columns??
+    #NAICSP_SOCP_df.drop(columns=['SERIALNO', 'SOCP', 'MAJ_SOCP', 'NAICSP', 'NAICSP_labels', 'MAJ_NAICSP']) #bugfix for dups
+
     return NAICSP_SOCP_df
 
 
