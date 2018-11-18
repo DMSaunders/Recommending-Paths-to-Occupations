@@ -8,7 +8,8 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-def load_dfs():
+def load_dfs() -> 'dfs':
+    '''loads all the csvs and text needed'''
 
     df = pd.read_csv('~/galv/ACS-PUMS-data/csv_pca/psam_p06.csv')
 
@@ -64,10 +65,15 @@ def load_dfs():
                 '23':"Professional degree beyond a bachelor's degree",
                 '24':"Doctorate degree"}
 
-    return df, fieldofdegree_df, SOCP_labels, schl_labels
+    major_majors = pd.read_csv('~/galv/capstone/resources/FOD1P_maj_labels.csv', header=None, names=['code','major major'])
+
+    NAICSP_labels_df = pd.read_csv('~/galv/capstone/resources/NAICScode.csv', header=None, names=['code','NAICSP_labels'])
+
+    return df, fieldofdegree_df, SOCP_labels, schl_labels, major_majors, NAICSP_labels_df
 
 
 def clean_that_target(df, SOCP_labels) -> 'df':
+    '''prepares the target variable SOCP for use in all subsequent dfs, and filters the rows for my desired sample'''
 
     #new df with nan in SOCP dropped
     SOCPdf = df.dropna(axis='index', subset=['SOCP'])[df.SOCP != '999920']
@@ -93,8 +99,9 @@ def clean_that_target(df, SOCP_labels) -> 'df':
 
     return youngemp_df
 
-
+# this is a split. either make the edu_df, the NAICSP_SOCP_df, or ...
 def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
+    '''df used to examine relationships between education and SOCP'''
 
     print('Number of degree fields present (max 173): {}'.format(youngemp_df.FOD1P.value_counts().count()))
 
@@ -107,14 +114,14 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
     #format degree labels df, create col
     fieldofdegree_df.dropna(axis='rows', how='any', inplace=True)
     fieldofdegree_df['2017 PUMS code'] = fieldofdegree_df['2017 PUMS code'].astype(int).astype(str)
-    
+
     #merge degree labels and youngemp, format
     FOD1P_df = youngemp_df.merge(fieldofdegree_df, how='left', left_on='FOD1P', right_on='2017 PUMS code')
     #format FOD1P_labels
     FOD1P_df.rename({'2017 PUMS Field of Degree Description': 'FOD1P_labels'}, axis=1, inplace=True)
     FOD1P_df.drop(columns='2017 PUMS code', inplace=True)
     FOD1P_df.FOD1P_labels.fillna('No major', inplace=True)
-    
+
     #merge degree labels and FOD1P_df
     FOD2P_df = FOD1P_df.merge(fieldofdegree_df, how='left', left_on='FOD2P', right_on='2017 PUMS code')
     #format FOD2P_labels
@@ -132,13 +139,39 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
 
     print(edu_df.info(memory_usage='deep')) # check for no missing data
 
-    edu_df = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'], drop_first=False)
+    dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'], drop_first=False)
+    edu_df = pd.concat([edu_df, dummies], axis=1)
+
+    #make major majors
+    edu_df['FOD1P_MAJ'] = edu_df.FOD1P.str.slice(start=0, stop=2)
+    major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
+    major_majors.code = major_majors.code.astype(str)
+    major_majors['major major'] = major_majors['major major'].str.lower().str.capitalize()
+    #merge
+    edu_df = edu_df.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
+    edu_df.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
+    edu_df.drop(columns='code', inplace=True)
 
     return edu_df
 
 
+def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df) -> 'df':
+    '''df used to examine relationships between NAICS and SOCP, for clustering a new target'''
+
+    NAICSP_SOCP_df = youngemp_df[['SERIALNO', 'SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'NAICSP']]
+    NAICSP_SOCP_df = NAICSP_SOCP_df.merge(NAICSP_labels_df, how='left', left_on='NAICSP', right_on='code')
+    NAICSP_SOCP_df.drop(columns=['code'], inplace=True)
+    NAICSP_SOCP_df.NAICSP_labels = NAICSP_SOCP_df.NAICSP_labels.fillna(9999)
+    NAICSP_SOCP_df['MAJ_NAICSP'] = NAICSP_SOCP_df.NAICSP_labels.str.slice(start=0, stop=3)
+    print(NAICSP_SOCP_df.info(memory_usage='deep')) # check for no missing data
+    return NAICSP_SOCP_df
 
 
-# if __name__ == "__main__":
-#     pass
-    
+
+
+
+
+
+#if __name__ == "__main__":
+    df, fieldofdegree_df, SOCP_labels, schl_labels = load_dfs()
+    youngemp_df = clean_that_target(df, SOCP_labels)

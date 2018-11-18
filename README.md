@@ -3,7 +3,7 @@
 ## Research Questions
 from simpler to more complex
 ### freewill features - computer occupations - binary classification
-* Is college major a good predictor of occupation code 150000 (Computer and mathematical occupations) in CA in 2017 for people 35 years old or under? Expecting no. I can see after cleaning that the target is too broad (ex: management in retail and engineering are lumped in the same label but are very different)
+* Is college major a good predictor of occupation code 150000 (Computer and mathematical occupations) in CA in 2017 for people 35 years old or under? Expecting no. I can see after cleaning that the target is too broad (ex: management with doctorate and with HS diploma are lumped in the same label but are very different)
 * What are the strongest predictors of occupation code 150000 given 15 'free will' features from the PUMS census (incl major)?
 ### freewill features - all occupations - multiclass classification
 * Is college major a good predictor of any occupation code in CA in 2017 for employed people 35 years old or under? Expecting no.
