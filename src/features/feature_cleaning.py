@@ -5,6 +5,7 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
+#FIRST
 def load_dfs() -> 'dfs':
     '''loads all the csvs and text needed'''
 
@@ -72,6 +73,7 @@ def load_dfs() -> 'dfs':
     return df, fieldofdegree_df, SOCP_labels, schl_labels, major_majors, NAICSP_labels_df, MAJ_NAICSP_labels_df
 
 
+#SECOND
 def clean_that_target(df, SOCP_labels) -> 'df':
     '''prepares the target variable SOCP for use in all subsestrquent dfs, and filters the rows for my desired sample'''
 
@@ -99,9 +101,19 @@ def clean_that_target(df, SOCP_labels) -> 'df':
 
     return youngemp_df
 
-# this is a split. either make the edu_df, the NAICSP_SOCP_df, or ...
+
+#SECOND PART 2 OPTIONAL
+def single_occ_target(youngemp_df) -> 'df':
+    '''single occ target for experimenting, run after clean that target'''
+    mymap = {'15': 1}
+    youngemp_df['MAJ_SOCP_15'] = youngemp_df.MAJ_SOCP.map(mymap).fillna(0).astype(int)    
+    return youngemp_df
+
+
+# THIRD
 def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
-    '''df used to examine relationships between education and SOCP'''
+    '''df used to examine relationships between education and SOCP. 
+    this is the initial feature subset. make this first. then the NAICSP_SOCP_df, or the full 16 features'''
 
     print('Number of degree fields present (max 173): {}'.format(youngemp_df.FOD1P.value_counts().count()))
 
@@ -130,7 +142,7 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
     FOD2P_df.FOD2P_labels.fillna('No major', inplace=True)
 
     #create edu_df limited to edu features
-    edu_df = FOD2P_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'FOD1P', 'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL']]
+    edu_df = FOD2P_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL']]
 
     #create column for SCHL label names
     edu_df.SCHL = edu_df.SCHL.astype(int).astype(str)
@@ -157,6 +169,26 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
     return edu_df2
 
 
+
+
+
+# FOURTH
+def create_freewill_df(edu_df2) -> 'df':
+    ''' df used to examine relationship between all 16 free will features and target'''
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+# this is used to cluster the target later
 def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df, MAJ_NAICSP_labels_df) -> 'df':
     '''df used to examine relationships between NAICS and SOCP, for clustering a new target'''
 
