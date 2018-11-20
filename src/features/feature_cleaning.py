@@ -165,6 +165,7 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
     edu_df2 = edu_df2.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
     edu_df2.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
     edu_df2.drop(columns='code', inplace=True)
+    edu_df2['FOD1P_MAJ'] = edu_df2['FOD1P_MAJ'].astype(int)
 
     return edu_df2
 
