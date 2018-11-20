@@ -100,7 +100,7 @@ def clean_that_target(df, SOCP_labels) -> 'df':
     return youngemp_df
 
 # this is a split. either make the edu_df, the NAICSP_SOCP_df, or ...
-def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
+def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
     '''df used to examine relationships between education and SOCP'''
 
     print('Number of degree fields present (max 173): {}'.format(youngemp_df.FOD1P.value_counts().count()))
@@ -140,19 +140,21 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
     print(edu_df.info(memory_usage='deep')) # check for no missing data
 
     dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'], drop_first=False)
-    #edu_df = pd.concat([edu_df, dummies], axis=1)
+    #concat might work below but you must assign the merge to a new variable
+    cols_to_use = dummies.columns.difference(edu_df.columns)
+    edu_df2 = pd.merge(edu_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
 
     #make major majors
-    # edu_df['FOD1P_MAJ'] = edu_df['FOD1P'].str.slice(start=0, stop=2)
-    # major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
-    # major_majors.code = major_majors.code.astype(str)
-    # major_majors['major major'] = major_majors['major major'].str.lower().str.capitalize()
-    # #merge
-    # edu_df = edu_df.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
-    # edu_df.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
-    # edu_df.drop(columns='code', inplace=True)
+    edu_df2['FOD1P_MAJ'] = edu_df2['FOD1P'].str.slice(start=0, stop=2)
+    major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
+    major_majors.code = major_majors.code.astype(str)
+    major_majors['major major'] = major_majors['major major'].str.lower().str.capitalize()
+    #merge
+    edu_df2 = edu_df2.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
+    edu_df2.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
+    edu_df2.drop(columns='code', inplace=True)
 
-    return edu_df, dummies
+    return edu_df2
 
 
 def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df, MAJ_NAICSP_labels_df) -> 'df':
