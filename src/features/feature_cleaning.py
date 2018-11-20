@@ -140,19 +140,19 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels) -> 'df':
     print(edu_df.info(memory_usage='deep')) # check for no missing data
 
     dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'], drop_first=False)
-    edu_df = pd.concat([edu_df, dummies], axis=1)
+    #edu_df = pd.concat([edu_df, dummies], axis=1)
 
     #make major majors
-    edu_df['FOD1P_MAJ'] = edu_df.FOD1P.str.slice(start=0, stop=2)
-    major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
-    major_majors.code = major_majors.code.astype(str)
-    major_majors['major major'] = major_majors['major major'].str.lower().str.capitalize()
-    #merge
-    edu_df = edu_df.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
-    edu_df.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
-    edu_df.drop(columns='code', inplace=True)
+    # edu_df['FOD1P_MAJ'] = edu_df['FOD1P'].str.slice(start=0, stop=2)
+    # major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
+    # major_majors.code = major_majors.code.astype(str)
+    # major_majors['major major'] = major_majors['major major'].str.lower().str.capitalize()
+    # #merge
+    # edu_df = edu_df.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
+    # edu_df.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
+    # edu_df.drop(columns='code', inplace=True)
 
-    return edu_df
+    return edu_df, dummies
 
 
 def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df, MAJ_NAICSP_labels_df) -> 'df':
