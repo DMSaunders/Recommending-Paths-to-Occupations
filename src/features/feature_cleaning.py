@@ -113,7 +113,8 @@ def single_occ_target(youngemp_df) -> 'df':
 # THIRD
 def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
     '''df used to examine relationships between education and SOCP. 
-    this is the initial feature subset. make this first. then the NAICSP_SOCP_df, or the full 16 features'''
+    this is the initial feature subset. make this first. then the NAICSP_SOCP_df, or the full 16 features
+    this contains redundant features'''
 
     print('Number of degree fields present (max 173): {}'.format(youngemp_df.FOD1P.value_counts().count()))
 
@@ -142,7 +143,8 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
     FOD2P_df.FOD2P_labels.fillna('No major', inplace=True)
 
     #create edu_df limited to edu features
-    edu_df = FOD2P_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL']]
+    edu_df = FOD2P_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 
+                        'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL']]
 
     #create column for SCHL label names
     edu_df.SCHL = edu_df.SCHL.astype(int).astype(str)
@@ -151,21 +153,22 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
 
     print(edu_df.info(memory_usage='deep')) # check for no missing data
 
-    dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels'], prefix=['SCHL_', 'FOD1P_', 'FOD2P_'], drop_first=False)
-    #concat might work below but you must assign the merge to a new variable
-    cols_to_use = dummies.columns.difference(edu_df.columns)
-    edu_df2 = pd.merge(edu_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
-
     #make major majors
-    edu_df2['FOD1P_MAJ'] = edu_df2['FOD1P'].str.slice(start=0, stop=2)
+    edu_df['FOD1P_MAJ'] = edu_df['FOD1P'].str.slice(start=0, stop=2)
     major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
     major_majors.code = major_majors.code.astype(str)
     major_majors['major major'] = major_majors['major major'].str.lower().str.capitalize()
     #merge
-    edu_df2 = edu_df2.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
-    edu_df2.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
-    edu_df2.drop(columns='code', inplace=True)
-    edu_df2['FOD1P_MAJ'] = edu_df2['FOD1P_MAJ'].astype(int)
+    edu_df = edu_df.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
+    edu_df.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
+    edu_df.drop(columns='code', inplace=True)
+    edu_df['FOD1P_MAJ'] = edu_df['FOD1P_MAJ'].astype(int)
+
+    dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels', 'FOD1P_MAJ_labels'], 
+                            prefix=['SCHL_', 'FOD1P_', 'FOD2P_', 'FOD1P_MAJ_'], drop_first=False)
+    #concat might work below but you must assign the merge to a new variable
+    cols_to_use = dummies.columns.difference(edu_df.columns)
+    edu_df2 = pd.merge(edu_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
 
     return edu_df2
 
