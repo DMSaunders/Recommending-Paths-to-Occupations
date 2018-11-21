@@ -151,8 +151,6 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
     edu_df['SCHL_labels'] = edu_df.SCHL.map(schl_labels)
     edu_df['SCHL_ord'] = edu_df.SCHL.astype(int)
 
-    print(edu_df.info(memory_usage='deep')) # check for no missing data
-
     #make major majors
     edu_df['FOD1P_MAJ'] = edu_df['FOD1P'].str.slice(start=0, stop=2)
     major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
@@ -163,6 +161,9 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
     edu_df.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
     edu_df.drop(columns='code', inplace=True)
     edu_df['FOD1P_MAJ'] = edu_df['FOD1P_MAJ'].astype(int)
+
+    print('before dummies:')
+    print(edu_df.info(memory_usage='deep')) # check for no missing data
 
     dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels', 'FOD1P_MAJ_labels'], 
                             prefix=['SCHL_', 'FOD1P_', 'FOD2P_', 'FOD1P_MAJ_'], drop_first=False)
