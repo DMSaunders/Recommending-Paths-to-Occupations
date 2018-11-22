@@ -1,0 +1,35 @@
+Performing model optimizations...
+
+Estimator: Logistic Regression w/ L1
+Fitting 10 folds for each of 6 candidates, totalling 60 fits
+Best params: {'clf__C': 0.1, 'clf__class_weight': None, 'clf__penalty': 'l1', 'clf__solver': 'liblinear'}
+Best training f1: 0.968
+Test set f1 score for best params: 0.398 
+
+Estimator: LogisticRegression w/ L2
+Fitting 10 folds for each of 18 candidates, totalling 180 fits
+Best params: {'clf__C': 1.0, 'clf__class_weight': None, 'clf__penalty': 'l2', 'clf__solver': 'newton-cg'}
+Best training f1: 0.968
+Test set f1 score for best params: 0.404 
+
+Estimator: SGDClassifier
+Fitting 10 folds for each of 72 candidates, totalling 720 fits
+[CV] clf__alpha=0.1, clf__class_weight=None, clf__loss=hinge, clf__penalty=l1
+Best params: {'clf__alpha': 0.001, 'clf__class_weight': None, 'clf__loss': 'log', 'clf__penalty': 'l1'}
+Best training f1: 0.966
+Test set f1 score for best params: 0.409 
+
+Estimator: DecisionTreeClassifier
+Fitting 10 folds for each of 1440 candidates, totalling 14400 fits
+Best params: {'clf__class_weight': None, 'clf__criterion': 'entropy', 'clf__max_depth': 1000, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10}
+Best training f1: 0.968
+Test set f1 score for best params: 0.417
+
+Estimator: Random Forest
+Fitting 10 folds for each of 2160 candidates, totalling 21600 fits
+Best params: {'clf__class_weight': None, 'clf__criterion': 'entropy', 'clf__max_depth': 1000, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10}
+Best training f1: 0.968
+Test set f1 score for best params: 0.417 
+
+Estimator: Random Forest w/ Scaling
+Fitting 10 folds for each of 2160 candidates, totalling 21600 fits
