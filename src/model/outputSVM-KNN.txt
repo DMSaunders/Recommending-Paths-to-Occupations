@@ -1,0 +1,59 @@
+]0;IPython: src/modelNumber of employed people: 218454
+Percent employed people: 0.5785711448056677
+Number of young employed people: 77406
+Percent young employed people(out of all PUMS): 0.20500827650135733
+Number of emp cats: 23
+Number of degree fields present (max 173): 173
+before dummies:
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 77406 entries, 0 to 77405
+Data columns (total 14 columns):
+SERIALNO            77406 non-null int64
+SOCP                77406 non-null object
+MAJ_SOCP            77406 non-null object
+MAJ_SOCP_labels     77406 non-null object
+MAJ_SOCP_15         77406 non-null int64
+FOD1P               77406 non-null object
+FOD2P               77406 non-null object
+FOD1P_labels        77406 non-null object
+FOD2P_labels        77406 non-null object
+SCHL                77406 non-null object
+SCHL_labels         77406 non-null object
+SCHL_ord            77406 non-null int64
+FOD1P_MAJ           77406 non-null int64
+FOD1P_MAJ_labels    77406 non-null object
+dtypes: int64(4), object(10)
+memory usage: 53.1 MB
+None
+Performing model optimizations...
+
+Estimator: SVC
+Fitting 10 folds for each of 486 candidates, totalling 4860 fits
+/anaconda3/lib/python3.6/site-packages/sklearn/ensemble/weight_boosting.py:29: DeprecationWarning: numpy.core.umath_tests is an internal NumPy module and should not be imported. It will be removed in a future NumPy release.
+  from numpy.core.umath_tests import inner1d
+/Users/fabio/galv/capstone/src/model/feature_cleaning.py:81: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  SOCPdf = df.dropna(axis='index', subset=['SOCP'])[df.SOCP != '999920']
+/anaconda3/lib/python3.6/site-packages/pandas/core/generic.py:4405: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self[name] = value
+/Users/fabio/galv/capstone/src/model/feature_cleaning.py:151: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  edu_df['SCHL_labels'] = edu_df.SCHL.map(schl_labels)
+/Users/fabio/galv/capstone/src/model/feature_cleaning.py:152: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  edu_df['SCHL_ord'] = edu_df.SCHL.astype(int)
+/Users/fabio/galv/capstone/src/model/feature_cleaning.py:155: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  edu_df['FOD1P_MAJ'] = edu_df['FOD1P'].str.slice(start=0, stop=2)
