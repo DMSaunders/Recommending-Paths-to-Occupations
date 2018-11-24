@@ -21,7 +21,7 @@ from sklearn.neighbors import KNeighborsClassifier
 #sklearn other
 #import graphviz 
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import classification_report, confusion_matrix, f1_score, log_loss
+from sklearn.metrics import classification_report, confusion_matrix, f1_score, log_loss, accuracy_score
 #from mlxtend.plotting import plot_confusion_matrix
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
