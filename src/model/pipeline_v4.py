@@ -21,7 +21,11 @@ from sklearn.neighbors import KNeighborsClassifier
 #sklearn other
 #import graphviz 
 from sklearn.model_selection import train_test_split, GridSearchCV
+<<<<<<< HEAD
 from sklearn.metrics import classification_report, confusion_matrix, f1_score, log_loss, accuracy_score
+=======
+from sklearn.metrics import classification_report, confusion_matrix, f1_score, log_loss, accuracy
+>>>>>>> f98342133313931ed59494922202ad2f91ea0631
 #from mlxtend.plotting import plot_confusion_matrix
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
@@ -115,11 +119,11 @@ if __name__ == "__main__":
             'clf__min_samples_split': param_range[1:],
             'clf__class_weight': [None, 'balanced']}]
 
-    grid_params_rf = [{'clf__criterion': ['gini', 'entropy'],
-            'clf__min_samples_leaf': param_range,
-            'clf__max_depth': max_depth,
-            'clf__min_samples_split': param_range[1:],
-            'clf__class_weight': [None, 'balanced', 'balanced_subsample']}]
+    grid_params_rf = [{'clf__criterion': 'entropy',
+            'clf__min_samples_leaf': 5,
+            'clf__max_depth': 100,,
+            'clf__min_samples_split': 10,
+            'clf__class_weight': None}]
 
     grid_params_gb = [{'clf__loss': ['deviance', 'exponential'],
             'clf__learning_rate': alpha_range,
@@ -244,7 +248,7 @@ if __name__ == "__main__":
         y_pred = gs.predict(X_test)
 
         #accuracy
-        print('test accuracy:' accuracy_score(y_train, y_pred))
+        print('test accuracy {}:'.format( accuracy_score(y_train, y_pred)))
         
         # Test data accuracy of model with best params
         print('Test set f1 score for best params: %.3f ' % f1_score(y_test, y_pred))
