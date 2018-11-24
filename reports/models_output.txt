@@ -33,3 +33,18 @@ Test set f1 score for best params: 0.417
 
 Estimator: Random Forest w/ Scaling
 Fitting 10 folds for each of 2160 candidates, totalling 21600 fits
+Best params: {'clf__class_weight': None, 'clf__criterion': 'entropy', 'clf__max_depth': 1000, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10}
+Best training f1: 0.968
+Test set f1 score for best params: 0.417
+
+Estimator: SVC
+Fitting 10 folds for each of 1 candidates, totalling 10 fits
+Best params: {}
+Best training f1: 0.967
+Test set f1 score for best params: 0.393 
+
+Estimator: KNeighborsClassifier
+Fitting 10 folds for each of 10 candidates, totalling 100 fits
+Best params: {'clf__n_neighbors': 7}
+Best training f1: 0.967
+Test set f1 score for best params: 0.381 
