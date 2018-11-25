@@ -177,14 +177,63 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
 
 
 
-# FOURTH
-def create_freewill_df(edu_df2) -> 'df':
+# THIRD OPTIONAL
+def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
     ''' df used to examine relationship between all 16 free will features and target'''
-    pass
+    
+    print('Number of degree fields present (max 173): {}'.format(youngemp_df.FOD1P.value_counts().count()))
 
+    #fill missing major codes, format
+    youngemp_df.FOD1P = youngemp_df.FOD1P.fillna(9999)
+    youngemp_df.FOD1P = youngemp_df.FOD1P.astype(int).astype(str)
+    youngemp_df.FOD2P = youngemp_df.FOD2P.fillna(9999)
+    youngemp_df.FOD2P = youngemp_df.FOD2P.astype(int).astype(str)
 
+    #format degree labels df, create col
+    fieldofdegree_df.dropna(axis='rows', how='any', inplace=True)
+    fieldofdegree_df['2017 PUMS code'] = fieldofdegree_df['2017 PUMS code'].astype(int).astype(str)
 
+    #merge degree labels and youngemp, format
+    FOD1P_df = youngemp_df.merge(fieldofdegree_df, how='left', left_on='FOD1P', right_on='2017 PUMS code')
+    #format FOD1P_labels
+    FOD1P_df.rename({'2017 PUMS Field of Degree Description': 'FOD1P_labels'}, axis=1, inplace=True)
+    FOD1P_df.drop(columns='2017 PUMS code', inplace=True)
+    FOD1P_df.FOD1P_labels.fillna('No major', inplace=True)
 
+    #merge degree labels and FOD1P_df
+    FOD2P_df = FOD1P_df.merge(fieldofdegree_df, how='left', left_on='FOD2P', right_on='2017 PUMS code')
+    #format FOD2P_labels
+    FOD2P_df.rename({'2017 PUMS Field of Degree Description': 'FOD2P_labels'}, axis=1, inplace=True)
+    FOD2P_df.drop(columns='2017 PUMS code', inplace=True)
+    FOD2P_df.FOD2P_labels.fillna('No major', inplace=True)
+    edu_df = FOD2P_df
+    
+    #make major majors
+    edu_df['FOD1P_MAJ'] = edu_df['FOD1P'].str.slice(start=0, stop=2)
+    major_majors.code = major_majors.code.str.slice(start=0, stop=2).astype(int) + 10
+    major_majors.code = major_majors.code.astype(str)
+    major_majors['major major'] = major_majors['major major'].str.lower().str.capitalize()
+    #merge
+    edu_df = edu_df.merge(major_majors, how='left', left_on='FOD1P_MAJ', right_on='code')
+    edu_df.rename({'major major': 'FOD1P_MAJ_labels'}, axis=1, inplace=True)
+    edu_df.drop(columns='code', inplace=True)
+    edu_df['FOD1P_MAJ'] = edu_df['FOD1P_MAJ'].astype(int)
+
+     #create column for SCHL label names
+    edu_df.SCHL = edu_df.SCHL.astype(int).astype(str)
+    edu_df['SCHL_labels'] = edu_df.SCHL.map(schl_labels)
+    edu_df['SCHL_ord'] = edu_df.SCHL.astype(int)
+
+    print('before dummies:')
+    print(edu_df.info(memory_usage='deep')) # check for no missing data
+
+    # dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels', 'FOD1P_MAJ_labels'], 
+    #                         prefix=['SCHL_', 'FOD1P_', 'FOD2P_', 'FOD1P_MAJ_'], drop_first=False)
+    # #concat might work below but you must assign the merge to a new variable
+    # cols_to_use = dummies.columns.difference(edu_df.columns)
+    # edu_df2 = pd.merge(edu_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
+
+    return edu_df
 
 
 
