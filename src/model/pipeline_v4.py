@@ -24,8 +24,6 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 <<<<<<< HEAD
 from sklearn.metrics import classification_report, confusion_matrix, f1_score, log_loss, accuracy_score
 =======
-from sklearn.metrics import classification_report, confusion_matrix, f1_score, log_loss, accuracy
->>>>>>> f98342133313931ed59494922202ad2f91ea0631
 #from mlxtend.plotting import plot_confusion_matrix
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline

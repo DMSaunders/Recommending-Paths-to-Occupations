@@ -1,3 +1,5 @@
+Predicting label 15 with 3 edu features
+
 Performing model optimizations...
 
 Estimator: Logistic Regression w/ L1
@@ -48,3 +50,84 @@ Fitting 10 folds for each of 10 candidates, totalling 100 fits
 Best params: {'clf__n_neighbors': 7}
 Best training f1: 0.967
 Test set f1 score for best params: 0.381 
+
+----------pca 2
+
+Estimator: Logistic Regression w/ L1 pca
+Fitting 10 folds for each of 6 candidates, totalling 60 fits
+Best params: {'clf__C': 0.5, 'clf__class_weight': None, 'clf__penalty': 'l1', 'clf__solver': 'liblinear'}
+Best training f1: 0.964
+Test set f1 score for best params: 0.027
+
+Estimator: LogisticRegression w/ L2 pca
+Fitting 10 folds for each of 18 candidates, totalling 180 fits
+Best params: {'clf__C': 0.1, 'clf__class_weight': None, 'clf__penalty': 'l2', 'clf__solver': 'newton-cg'}
+Best training f1: 0.964
+Test set f1 score for best params: 0.000
+
+Estimator: SGDClassifier pca
+Fitting 10 folds for each of 72 candidates, totalling 720 fits
+Best params: {'clf__alpha': 0.1, 'clf__class_weight': None, 'clf__loss': 'hinge', 'clf__penalty': 'l1'}
+Best training f1: 0.964
+Test set f1 score for best params: 0.000
+
+Estimator: Random Forest pca scaling
+Fitting 10 folds for each of 2160 candidates, totalling 21600 fits
+Best params: {'clf__class_weight': None, 'clf__criterion': 'gini', 'clf__max_depth': 100, 'clf__min_samples_leaf': 9, 'clf__min_samples_split': 3}
+Best training f1: 0.966
+Test set f1 score for best params: 0.072
+
+---pca 20
+
+Estimator: Logistic Regression w/ L1 pca
+Fitting 10 folds for each of 6 candidates, totalling 60 fits
+Best params: {'clf__C': 0.5, 'clf__class_weight': None, 'clf__penalty': 'l1', 'clf__solver': 'liblinear'}
+Best training f1: 0.965
+Test set f1 score for best params: 0.203 
+
+-- pca 40
+
+Estimator: Logistic Regression w/ L1 pca
+Fitting 10 folds for each of 6 candidates, totalling 60 fits
+Best params: {'clf__C': 0.5, 'clf__class_weight': None, 'clf__penalty': 'l1', 'clf__solver': 'liblinear'}
+Best training f1: 0.965
+Test set f1 score for best params: 0.207 
+
+
+----------------------------------------------
+rf
+
+accuracy_score(y_train, y_pred_all_0)
+0.9640853388454156
+
+f1_score(y_train, y_pred_mostly_0) # can't have all 0 in y_pred so added a single 1
+0.0
+
+accuracy_score(y_test, y_pred) # real accuracy score on rf model
+0.9666264748944966
+
+improvement of like 7% of the possible improvement
+test auc 0.6591084376962484
+
+
+
+
+Best params: {'clf__class_weight': None, 'clf__criterion': 'entropy', 'clf__max_depth': 1000, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10}
+Best training f1: 0.968
+
+
+-----
+all maj occp
+
+------------------------------------------------------------------------------------------------------
+SSH
+
+
+jupyter notebook --no-browser --port=3333
+ssh -i ~/.ssh/first_key.pem -L 8157:127.0.0.1:3333 ubuntu@ec2-35-171-88-190.compute-1.amazonaws.com
+Navigate to http://127.0.0.1:8157 in your browser
+
+
+[ec2-user ~]$ git clone https://github.com/DMSaunders/capstone
+pip install joblib
+

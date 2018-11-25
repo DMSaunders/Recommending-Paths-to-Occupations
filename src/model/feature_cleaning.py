@@ -105,8 +105,8 @@ def clean_that_target(df, SOCP_labels) -> 'df':
 #SECOND PART 2 OPTIONAL
 def single_occ_target(youngemp_df) -> 'df':
     '''single occ target for experimenting, run after clean that target'''
-    mymap = {'15': 1}
-    youngemp_df['MAJ_SOCP_15'] = youngemp_df.MAJ_SOCP.map(mymap).fillna(0).astype(int)    
+    mymap = {'43': 1}
+    youngemp_df['MAJ_SOCP_43'] = youngemp_df.MAJ_SOCP.map(mymap).fillna(0).astype(int)
     return youngemp_df
 
 
@@ -143,7 +143,7 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
     FOD2P_df.FOD2P_labels.fillna('No major', inplace=True)
 
     #create edu_df limited to edu features
-    edu_df = FOD2P_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 
+    edu_df = FOD2P_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_43', 'FOD1P', 
                         'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL']]
 
     #create column for SCHL label names
@@ -227,3 +227,5 @@ def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df, MAJ_NAICSP_labels_df) -
 #if __name__ == "__main__":
     df, fieldofdegree_df, SOCP_labels, schl_labels = load_dfs()
     youngemp_df = clean_that_target(df, SOCP_labels)
+
+
