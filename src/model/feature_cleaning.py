@@ -109,6 +109,23 @@ def single_occ_target(youngemp_df) -> 'df':
     youngemp_df['MAJ_SOCP_15'] = youngemp_df.MAJ_SOCP.map(mymap).fillna(0).astype(int)
     return youngemp_df
 
+#SECOND PART 2 ALTERNATIVE - exclusively computer occupations
+def single_occ_target_specific(youngemp_df) -> 'df':
+    '''single occ target for experimenting, run after clean that target'''
+    mymap = {
+    '151111':1,
+    '151121':1,
+    '151122':1,
+    '151131':1,
+    '15113X':1,
+    '151134':1,
+    '151141':1,
+    '151142':1,
+    '151143':1,
+    '151150':1,
+    '151199':1}
+    youngemp_df['SOCP_computer'] = youngemp_df.SOCP.map(mymap).fillna(0).astype(int)
+    return youngemp_df
 
 # THIRD
 def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
@@ -226,9 +243,10 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
 
 
     #------------------------------------------after this part is new for freewill variables, until 'before dummies'
-    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 
+    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'SOCP_computer', 'FOD1P', 
                         'FOD2P', 'FOD1P_labels', 'FOD1P_MAJ_labels', 'FOD2P_labels', 'SCHL', 'SCHL_labels', 'PUMA', 'COW', 
                         'ENG', 'JWTR', 'JWMNP', 'MARHT', 'WKHP', 'WKW', 'MSP', 'RELP', 'FMILSP']]
+    #update the target as you change it
 
     #PUMA, incl as both int and cat?
     freewill_df['PUMA_cat'] = freewill_df.PUMA.astype(str)
