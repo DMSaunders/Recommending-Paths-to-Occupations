@@ -39,6 +39,12 @@ Best params: {'clf__class_weight': None, 'clf__criterion': 'entropy', 'clf__max_
 Best training f1: 0.968
 Test set f1 score for best params: 0.417
 
+
+GradientBoosting
+done manually. (max_depth=2)
+test f1 of 0.396
+test accuracy 96.66%
+
 Estimator: SVC
 Fitting 10 folds for each of 1 candidates, totalling 10 fits
 Best params: {}
@@ -50,6 +56,13 @@ Fitting 10 folds for each of 10 candidates, totalling 100 fits
 Best params: {'clf__n_neighbors': 7}
 Best training f1: 0.967
 Test set f1 score for best params: 0.381 
+
+XGBoost
+Best params: {}
+Best training f1: 0.968
+test accuracy 96.697%    <----------------best
+test auc 0.6427957364822662:
+Test set f1 score for best params: 0.393 
 
 ----------pca 2
 
@@ -119,15 +132,39 @@ Best training f1: 0.968
 -----
 all maj occp
 
+
+
+
+---------------- freewill features
+untuned XGBoost
+Best params: {}
+Best training f1: 0.969
+test accuracy 96.938%                #my accuracy improved but f1 decreased???
+test auc 0.63437966717126
+Test set f1 score for best params: 0.394
+
+untuned GradientBoosting
+Best params: {}
+Best training f1: 0.969
+test accuracy 0.9690810438377401:
+test auc 0.6478713578631614:
+Test set f1 score for best params: 0.415
+
 ------------------------------------------------------------------------------------------------------
-SSH
+SSH into jupyter
 
+ssh -i ~/.ssh/first_key.pem ubuntu@ec2-52-206-68-215.compute-1.amazonaws.com
+jupyter notebook --no-browser --port=8888
 
-jupyter notebook --no-browser --port=3333
-ssh -i ~/.ssh/first_key.pem -L 8157:127.0.0.1:3333 ubuntu@ec2-35-171-88-190.compute-1.amazonaws.com
+ssh -i ~/.ssh/first_key.pem -L 8157:127.0.0.1:8888 ubuntu@ec2-52-90-67-198.compute-1.amazonaws.com
 Navigate to http://127.0.0.1:8157 in your browser
+Use     Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:3333/?token=            739964ce5438e15829ab2d5e155819dba1172fb2af77fad9          &token=739964ce5438e15829ab2d5e155819dba1172fb2af77fad9
 
 
 [ec2-user ~]$ git clone https://github.com/DMSaunders/capstone
 pip install joblib
+pip install xgboost
 
+fd5d606b5c8ab8c918e682bcf35bf4ecbab79746b0e9d358&token=fd5d606b5c8ab8c918e682bcf35bf4ecbab79746b0e9d358
