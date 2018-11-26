@@ -177,7 +177,7 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
 
 
 
-# THIRD OPTIONAL
+# THIRD ALTERNATE
 def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
     ''' df used to examine relationship between all 16 free will features and target'''
     
@@ -224,14 +224,103 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     edu_df['SCHL_labels'] = edu_df.SCHL.map(schl_labels)
     edu_df['SCHL_ord'] = edu_df.SCHL.astype(int)
 
+
+    #------------------------------------------after this part is new for freewill variables, until 'before dummies'
+    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_43', 'FOD1P', 
+                        'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL', 'PUMA', ]]
+
+    #COW
+    COW_df = {
+    1:'Employee(for-profit)',
+    2:'Employee(non-profit)',
+    3:'Local gov employee',
+    4:'State govemployee',
+    5:'Federal gov employee',
+    6:'Self-employed(not inc)',
+    7:'Self-employed(inc)',
+    8:'Family business, unpaid'}
+    freewill_df['COW_labels'] = freewill_df.COW.map(COW_df)
+
+    #ENG  
+    ENG_df = {
+    9999:'Native',
+    1:'Very well',
+    2:'Well',
+    3:'Not well',
+    4:'Not at all'}
+    freewill_df.ENG = freewill_df.ENG.fillna(9999)
+    freewill_df['ENG_labels'] = freewill_df.ENG.map(ENG_df)
+
+    #JWTR
+    JWTR_df = {
+    9999:'N/A',
+    1:'Automobile',
+    2:'Bus',
+    3:'Streetcar',
+    4:'Subway',
+    5:'Railroad',
+    6:'Ferryboat',
+    7:'Taxicab',
+    8:'Motorcycle',
+    9:'Bicycle',
+    10:'Walked',
+    11:'Worked at home',
+    12:'Other method'}
+    freewill_df.JWTR = freewill_df.JWTR.fillna(9999)
+    freewill_df['JWTR_labels'] = freewill_df.JWTR.map(JWTR_df)
+
+    #JWMNP  first real numeric variable!!
+    freewill_df.JWMNP = freewill_df.JWMNP.fillna(0)
+
+    #MARHT
+    MARHT_df = {
+    9999: 'Never married',
+    1:'Once',
+    2:'Twice',
+    3:'Thrice or more'}
+    freewill_df.MARHT = freewill_df.MARHT.fillna(9999)
+    freewill_df['MARHT_labels'] = freewill_df.MARHT.map(MARHT_df)
+
+    #WKHP   numeric, working hours
+    freewill_df.WKHP = freewill_df.WKHP.fillna(0)
+
+    #WKW    working weeks past 12 months
+    freewill_df.WKW = freewill_df.WKW.fillna(0)
+
+    WKW_df ={
+    0:'N/A',
+    1:'50 to 52',
+    2:'48 to 49',
+    3:'40 to 47',
+    4:'27 to 39',
+    5:'14 to 26',
+    6:'< 14'}
+
+    freewill_df['WKW_labels'] = freewill_df.WKW.map(WKW_df)
+
+    switch_WKW_df = {
+    'N/A':1,
+    '< 14':2,
+    '14 to 26':3,
+    '27 to 39':4,
+    '40 to 47':5,
+    '48 to 49':6,
+    '50 to 52':7}
+
+    freewill_df['WKW_ord'] = freewill_df.WKW_labels.map(switch_WKW_df)
+
+    
+
+
+
     print('before dummies:')
     print(edu_df.info(memory_usage='deep')) # check for no missing data
 
-    # dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels', 'FOD1P_MAJ_labels'], 
-    #                         prefix=['SCHL_', 'FOD1P_', 'FOD2P_', 'FOD1P_MAJ_'], drop_first=False)
-    # #concat might work below but you must assign the merge to a new variable
-    # cols_to_use = dummies.columns.difference(edu_df.columns)
-    # edu_df2 = pd.merge(edu_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
+    dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels', 'FOD1P_MAJ_labels'], 
+                            prefix=['SCHL_', 'FOD1P_', 'FOD2P_', 'FOD1P_MAJ_', 'PUMA'], drop_first=False)
+    #concat might work below but you must assign the merge to a new variable
+    cols_to_use = dummies.columns.difference(edu_df.columns)
+    edu_df2 = pd.merge(edu_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
 
     return edu_df
 
