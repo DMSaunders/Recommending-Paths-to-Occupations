@@ -105,8 +105,8 @@ def clean_that_target(df, SOCP_labels) -> 'df':
 #SECOND PART 2 OPTIONAL
 def single_occ_target(youngemp_df) -> 'df':
     '''single occ target for experimenting, run after clean that target'''
-    mymap = {'43': 1}
-    youngemp_df['MAJ_SOCP_43'] = youngemp_df.MAJ_SOCP.map(mymap).fillna(0).astype(int)
+    mymap = {'15': 1}
+    youngemp_df['MAJ_SOCP_15'] = youngemp_df.MAJ_SOCP.map(mymap).fillna(0).astype(int)
     return youngemp_df
 
 
@@ -226,8 +226,12 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
 
 
     #------------------------------------------after this part is new for freewill variables, until 'before dummies'
-    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_43', 'FOD1P', 
-                        'FOD2P', 'FOD1P_labels', 'FOD2P_labels', 'SCHL', 'PUMA', ]]
+    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 
+                        'FOD2P', 'FOD1P_labels', 'FOD1P_MAJ_labels', 'FOD2P_labels', 'SCHL', 'SCHL_labels', 'PUMA', 'COW', 
+                        'ENG', 'JWTR', 'JWMNP', 'MARHT', 'WKHP', 'WKW', 'MSP', 'RELP', 'FMILSP']]
+
+    #PUMA, incl as both int and cat?
+    freewill_df['PUMA_cat'] = freewill_df.PUMA.astype(str)
 
     #COW
     COW_df = {
@@ -295,7 +299,6 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     4:'27 to 39',
     5:'14 to 26',
     6:'< 14'}
-
     freewill_df['WKW_labels'] = freewill_df.WKW.map(WKW_df)
 
     switch_WKW_df = {
@@ -306,23 +309,96 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     '40 to 47':5,
     '48 to 49':6,
     '50 to 52':7}
-
     freewill_df['WKW_ord'] = freewill_df.WKW_labels.map(switch_WKW_df)
 
-    
+    #MSP married spouse present - remember these will corr with age
+    freewill_df.MSP.fillna(9999)
+    MSP_df = {
+    9999:'N/A (age less than 15 years)',
+    1	:'Now married, spouse present',
+    2	:'Now married, spouse absent',
+    3	:'Widowed',
+    4	:'Divorced',
+    5	:'Separated',
+    6	:'Never married'}
+    freewill_df['MSP_labels'] = freewill_df.MSP.map(MSP_df)
 
+    # #SFR  not populous
+    # SFR_df = {
+    # 9999:'N/A (GQ/not in a subfamily)',
+    # 1   :'Husband/wife no children',
+    # 2   :'Husband/wife with children',
+    # 3   :'Parent in a one-parent subfamily',
+    # 4   :'Child in a married-couple subfamily',
+    # 5   :'Child in a mother-child subfamily',
+    # 6   :'Child in a father-child subfamily'}
 
+    #RELP
+    RELP_df = {
+    0:  'Reference person',
+    1:  'Husband/wife',
+    2:  'Biological son or daughter',
+    3:  'Adopted son or daughter',
+    4:  'Stepson or stepdaughter',
+    5:  'Brother or sister',
+    6:  'Father or mother',
+    7:  'Grandchild',
+    8:  'Parent-in-law',
+    9:  'Son-in-law or daughter-in-law',
+    10: 'Other relative',
+    11: 'Roomer or boarder',
+    12: 'Housemate or roommate',
+    13: 'Unmarried partner',
+    14: 'Foster child',
+    15: 'Other nonrelative',
+    16: 'Institutionalized group quarters population',
+    17: 'Noninstitutionalized group quarters population',
+    9999: 'N/A'}
+    freewill_df.RELP.fillna(9999)
+    freewill_df['RELP_labels'] = freewill_df.RELP.map(RELP_df)
+
+    #FMILSP flag military
+    FMILSP_df ={
+        0:'No',
+        1:'Yes'
+    }
+    freewill_df['FMILSP_labels'] = freewill_df.FMILSP.map(FMILSP_df)
 
     print('before dummies:')
-    print(edu_df.info(memory_usage='deep')) # check for no missing data
+    print(freewill_df.info(memory_usage='deep')) # check for no missing data
 
-    dummies = pd.get_dummies(edu_df, columns=['SCHL_labels', 'FOD1P_labels', 'FOD2P_labels', 'FOD1P_MAJ_labels'], 
-                            prefix=['SCHL_', 'FOD1P_', 'FOD2P_', 'FOD1P_MAJ_', 'PUMA'], drop_first=False)
+    dummies = pd.get_dummies(freewill_df, 
+            columns=['SCHL_labels', 
+                    'FOD1P_labels', 
+                    'FOD2P_labels', 
+                    'FOD1P_MAJ_labels',
+                    'PUMA_cat',
+                    'COW_labels',
+                    'ENG_labels',
+                    'JWTR',
+                    'MARHT_labels',
+                    'MSP_labels',
+                    'RELP_labels',
+                    'FMILSP_labels'], 
+                    prefix=['SCHL_', 
+                            'FOD1P_', 
+                            'FOD2P_', 
+                            'FOD1P_MAJ_', 
+                            'PUMA_',
+                            'COW_',
+                            'ENG_',
+                            'JWTR_',
+                            'MARHT_',
+                            'MSP_',
+                            'RELP_',
+                            'FMILSP_'], drop_first=False)
     #concat might work below but you must assign the merge to a new variable
-    cols_to_use = dummies.columns.difference(edu_df.columns)
-    edu_df2 = pd.merge(edu_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
+    cols_to_use = dummies.columns.difference(freewill_df.columns)
+    freewill_df2 = pd.merge(freewill_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
 
-    return edu_df
+    freewill_df2.drop(columns=['FOD1P', 'FOD2P', 'COW', 'ENG', 'JWTR', 'MARHT', 'WKW', 'MSP', 'RELP', 'FMILSP', 'PUMA_cat'], inplace=True)
+    
+    return freewill_df2
 
 
 
@@ -362,8 +438,8 @@ def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df, MAJ_NAICSP_labels_df) -
 
 
 
-#if __name__ == "__main__":
-    df, fieldofdegree_df, SOCP_labels, schl_labels = load_dfs()
-    youngemp_df = clean_that_target(df, SOCP_labels)
+# #if __name__ == "__main__":
+#     df, fieldofdegree_df, SOCP_labels, schl_labels = load_dfs()
+#     youngemp_df = clean_that_target(df, SOCP_labels)
 
 
