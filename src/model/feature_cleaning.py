@@ -243,7 +243,7 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
 
 
     #------------------------------------------after this part is new for freewill variables, until 'before dummies'
-    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'SOCP_computer', 'FOD1P', 
+    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 
                         'FOD2P', 'FOD1P_labels', 'FOD1P_MAJ_labels', 'FOD2P_labels', 'SCHL', 'SCHL_labels', 'PUMA', 'COW', 
                         'ENG', 'JWTR', 'JWMNP', 'MARHT', 'WKHP', 'WKW', 'MSP', 'RELP', 'FMILSP']]
     #update the target as you change it
@@ -291,7 +291,7 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     freewill_df.JWTR = freewill_df.JWTR.fillna(9999)
     freewill_df['JWTR_labels'] = freewill_df.JWTR.map(JWTR_df)
 
-    #JWMNP  first real numeric variable!!
+    #JWMNP  first real numeric variable!! Travel time to work
     freewill_df.JWMNP = freewill_df.JWMNP.fillna(0)
 
     #MARHT
