@@ -243,9 +243,9 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
 
 
     #------------------------------------------after this part is new for freewill variables, until 'before dummies'
-    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'MAJ_SOCP_15', 'FOD1P', 
+    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'FOD1P', 'MAJ_SOCP_15',
                         'FOD2P', 'FOD1P_labels', 'FOD1P_MAJ_labels', 'FOD2P_labels', 'SCHL', 'SCHL_labels', 'PUMA', 'COW', 
-                        'ENG', 'JWTR', 'JWMNP', 'MARHT', 'WKHP', 'WKW', 'MSP', 'RELP', 'FMILSP']]
+                        'ENG', 'MARHT', 'MSP', 'RELP', 'FMILSP']]
     #update the target as you change it
 
     #PUMA, incl as both int and cat?
@@ -272,27 +272,29 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     4:'Not at all'}
     freewill_df.ENG = freewill_df.ENG.fillna(9999)
     freewill_df['ENG_labels'] = freewill_df.ENG.map(ENG_df)
+    
+    #REMOVED
+        #JWTR
+        # JWTR_df = {
+        # 9999:'N/A',
+        # 1:'Automobile',
+        # 2:'Bus',
+        # 3:'Streetcar',
+        # 4:'Subway',
+        # 5:'Railroad',
+        # 6:'Ferryboat',
+        # 7:'Taxicab',
+        # 8:'Motorcycle',
+        # 9:'Bicycle',
+        # 10:'Walked',
+        # 11:'Worked at home',
+        # 12:'Other method'}
+        # freewill_df.JWTR = freewill_df.JWTR.fillna(9999)
+        # freewill_df['JWTR_labels'] = freewill_df.JWTR.map(JWTR_df)
 
-    #JWTR
-    JWTR_df = {
-    9999:'N/A',
-    1:'Automobile',
-    2:'Bus',
-    3:'Streetcar',
-    4:'Subway',
-    5:'Railroad',
-    6:'Ferryboat',
-    7:'Taxicab',
-    8:'Motorcycle',
-    9:'Bicycle',
-    10:'Walked',
-    11:'Worked at home',
-    12:'Other method'}
-    freewill_df.JWTR = freewill_df.JWTR.fillna(9999)
-    freewill_df['JWTR_labels'] = freewill_df.JWTR.map(JWTR_df)
-
+    #REMOVED     
     #JWMNP  first real numeric variable!! Travel time to work
-    freewill_df.JWMNP = freewill_df.JWMNP.fillna(0)
+    #freewill_df.JWMNP = freewill_df.JWMNP.fillna(0)
 
     #MARHT
     MARHT_df = {
@@ -303,31 +305,33 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     freewill_df.MARHT = freewill_df.MARHT.fillna(9999)
     freewill_df['MARHT_labels'] = freewill_df.MARHT.map(MARHT_df)
 
-    #WKHP   numeric, working hours
-    freewill_df.WKHP = freewill_df.WKHP.fillna(0)
+    #REMOVED
+    # WKHP   numeric, working hours
+    #freewill_df.WKHP = freewill_df.WKHP.fillna(0)
 
-    #WKW    working weeks past 12 months
-    freewill_df.WKW = freewill_df.WKW.fillna(0)
+    #REMOVED
+    # WKW    working weeks past 12 months
+    #freewill_df.WKW = freewill_df.WKW.fillna(0)
 
-    WKW_df ={
-    0:'N/A',
-    1:'50 to 52',
-    2:'48 to 49',
-    3:'40 to 47',
-    4:'27 to 39',
-    5:'14 to 26',
-    6:'< 14'}
-    freewill_df['WKW_labels'] = freewill_df.WKW.map(WKW_df)
+    # WKW_df ={
+        # 0:'N/A',
+        # 1:'50 to 52',
+        # 2:'48 to 49',
+        # 3:'40 to 47',
+        # 4:'27 to 39',
+        # 5:'14 to 26',
+        # 6:'< 14'}
+        # freewill_df['WKW_labels'] = freewill_df.WKW.map(WKW_df)
 
-    switch_WKW_df = {
-    'N/A':1,
-    '< 14':2,
-    '14 to 26':3,
-    '27 to 39':4,
-    '40 to 47':5,
-    '48 to 49':6,
-    '50 to 52':7}
-    freewill_df['WKW_ord'] = freewill_df.WKW_labels.map(switch_WKW_df)
+        # switch_WKW_df = {
+        # 'N/A':1,
+        # '< 14':2,
+        # '14 to 26':3,
+        # '27 to 39':4,
+        # '40 to 47':5,
+        # '48 to 49':6,
+        # '50 to 52':7}
+        # freewill_df['WKW_ord'] = freewill_df.WKW_labels.map(switch_WKW_df)
 
     #MSP married spouse present - remember these will corr with age
     freewill_df.MSP.fillna(9999)
@@ -393,7 +397,6 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
                     'PUMA_cat',
                     'COW_labels',
                     'ENG_labels',
-                    'JWTR',
                     'MARHT_labels',
                     'MSP_labels',
                     'RELP_labels',
@@ -405,7 +408,6 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
                             'PUMA_',
                             'COW_',
                             'ENG_',
-                            'JWTR_',
                             'MARHT_',
                             'MSP_',
                             'RELP_',
@@ -414,7 +416,7 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     cols_to_use = dummies.columns.difference(freewill_df.columns)
     freewill_df2 = pd.merge(freewill_df, dummies[cols_to_use], left_index=True, right_index=True,  validate='1:1',how='outer')
 
-    freewill_df2.drop(columns=['FOD1P', 'FOD2P', 'COW', 'ENG', 'JWTR', 'MARHT', 'WKW', 'MSP', 'RELP', 'FMILSP', 'PUMA_cat'], inplace=True)
+    freewill_df2.drop(columns=['FOD1P', 'FOD2P', 'COW', 'ENG', 'MARHT', 'MSP', 'RELP', 'FMILSP', 'PUMA_cat'], inplace=True)
     
     return freewill_df2
 
