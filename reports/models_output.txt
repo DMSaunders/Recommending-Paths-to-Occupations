@@ -21,17 +21,21 @@ Best params: {'clf__alpha': 0.001, 'clf__class_weight': None, 'clf__loss': 'log'
 Best training f1: 0.966
 Test set f1 score for best params: 0.409 
 
+
+
 Estimator: DecisionTreeClassifier
 Fitting 10 folds for each of 1440 candidates, totalling 14400 fits
 Best params: {'clf__class_weight': None, 'clf__criterion': 'entropy', 'clf__max_depth': 1000, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10}
 Best training f1: 0.968
 Test set f1 score for best params: 0.417
+test auc: 
 
 Estimator: Random Forest
 Fitting 10 folds for each of 2160 candidates, totalling 21600 fits
 Best params: {'clf__class_weight': None, 'clf__criterion': 'entropy', 'clf__max_depth': 1000, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10}
 Best training f1: 0.968
 Test set f1 score for best params: 0.417 
+test auc 0.815653444124108:                
 
 Estimator: Random Forest w/ Scaling
 Fitting 10 folds for each of 2160 candidates, totalling 21600 fits
@@ -60,8 +64,7 @@ Test set f1 score for best params: 0.381
 XGBoost
 Best params: {}
 Best training f1: 0.968
-test accuracy 96.697%    <----------------best
-test auc 0.6427957364822662:
+test accuracy 96.697%    
 Test set f1 score for best params: 0.393 
 
 ----------pca 2
@@ -120,7 +123,7 @@ accuracy_score(y_test, y_pred) # real accuracy score on rf model
 0.9666264748944966
 
 improvement of like 7% of the possible improvement
-test auc 0.6591084376962484
+
 
 
 
@@ -132,6 +135,9 @@ Best training f1: 0.968
 -----
 all maj occp
 
+Estimator: DecisionTreeClassifier untuned
+train f1 0.24151040897681972
+test f1 0.21212643183188357
 
 
 
@@ -140,15 +146,27 @@ untuned XGBoost
 Best params: {}
 Best training f1: 0.969
 test accuracy 96.938%                #my accuracy improved but f1 decreased???
-test auc 0.63437966717126
 Test set f1 score for best params: 0.394
 
 untuned GradientBoosting
 Best params: {}
 Best training f1: 0.969
 test accuracy 0.9690810438377401:
-test auc 0.6478713578631614:
 Test set f1 score for best params: 0.415
+
+untuned rf on computer occp only
+Best params: {}
+Best training f1: 0.969
+test accuracy 0.9688226681595039:   
+test auc 0.7809562614722637:  I'd been doing these wrong
+Test set f1 score for best params: 0.359 
+
+tuned rf on occp 15
+Best params: {'clf__criterion': 'entropy', 'clf__max_depth': 100, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10, 'clf__n_estimators': 200}
+Best training f1: 0.969
+test accuracy 0.9691671690638188: <----------------best
+Test set f1 score for best params: 0.372 
+test auc 0.8660411706311473    <------------------ best
 
 ------------------------------------------------------------------------------------------------------
 SSH into jupyter
@@ -168,3 +186,5 @@ pip install joblib
 pip install xgboost
 
 fd5d606b5c8ab8c918e682bcf35bf4ecbab79746b0e9d358&token=fd5d606b5c8ab8c918e682bcf35bf4ecbab79746b0e9d358
+
+scp -i ~/.ssh/first_key.pem ~/galv/capstone/notebooks/freewill_df.csv ubuntu@ec2-18-234-116-27.compute-1.amazonaws.com:~/capstone/notebooks
