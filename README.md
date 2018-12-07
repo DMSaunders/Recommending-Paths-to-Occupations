@@ -1,14 +1,18 @@
 # Predicting Occupation Based on Life Decisions: 
-## So You Want to Be a Programmer? 
+### So You Want to Be a Programmer? 
 
-## What are the strongest predictors of occupation code given 16 'free will' factors from the 2017 US Census? 
-Such as:
-College Major
-Educational Attainment
-Location
-Military Service
+## What are the strongest predictors of occupation given 14 features from the 2017 US Census that individuals can hypothetically control? 
+Example Features:
+* College Major
+* Educational Attainment
+* Location
+* Military Service
 
-Young adults could enter a desired occupation into a web app and see its most predictive features as a suggestion of paths others have successfully taken. The site would explore correlations between these controllable predictors and uncontrollable demographics like wealth and emphasize that the best way to change entrenched patterns is to know what you have the power to change.
+## First Goal
+Young adults enter a desired occupation into a web app and see its most predictive features as a suggestion of paths others have successfully taken. The site would explore correlations between these controllable predictors and uncontrollable demographics like wealth and emphasize that the best way to change entrenched patterns is to know what you have the power to change.
+
+## Alternate Goal
+Users enter their desired occupation and their demographic information and I run a model for them, which outputs a predicted likelihood of of that person being that occupation. I present appropriate resources based on the likelihood, for example more supportive vs more accelerated, and recommend actions corresponding to the features that the individual can control. Some occupations, for example sales and healthcare support, will not likely recommed increased educational achievement in the form of degrees, since I found little support for that relationship so far.
 
 ## Tech:
 Coded in Python including Pandas and scikit-learn. Challenged by runtime while gridsearching models, minimal tuning gains, and feature selection. Learned to run pipelines and fire up a model in Jupyter on an AWS EC2 instance in 7 minutes. 
