@@ -40,14 +40,14 @@ Many projects have explored the effects of these features on individuals' report
 
 ##  Tech Stack & Data Source
 
-image:pandas.jpg[pandas,200,100] image:scikit.png[scikit,200,100] image:matplot.png[matplot,200,100] image:Jupyter-logo.png[jupyter,100,100] image:ec2.png[ec2,200,100]
+image:pandas.jpg[pandas,200,150] image:scikit.png[scikit,200,100] image:matplot.png[matplot,250,100] image:Jupyter-logo.png[jupyter,100,100] image:ec2.png[ec2,200,100]
 
 Coded in Python including Pandas, scikit-learn, and matplotlib. Challenged by runtime while gridsearching models, minimal tuning gains, and feature selection. Learned to run pipelines and fire up a model in Jupyter on an AWS EC2 instance in 7 minutes. 
 
 The American Community Survey Public Use Microdata Sample provides anonymized individuals' data in the amount of about 1% of each state's population each year, which is incredible. The tables have around 200 features on these individuals, including demographic information such as handicap, insurance, income, language spoken, citizenship, working hours, and more. See the https://github.com/DMSaunders/Predicting-Occupation-From-Life-Decisions/blob/master/resources/PUMS_Data_Dictionary_2017.csv[Data Dictionary] starting from row 1145 for examples of the features.
 
 ## Method
-As an agile data science approach, I defined a minimum viable product to reduce the CRISP-DM cycle to the shortest length for me to assess whether the project is worthwhile and avoid cleaning data or tuning models that do not suit the objective. This involved selecting the latest survey for a single state.
+As an agile data science approach, I defined a minimum viable product to reduce the CRISP-DM cycle to the shortest length for me to assess whether the project is worthwhile and avoid cleaning data or tuning models that do not suit the objective. This involved selecting the latest survey for a single state. I also limited the dataset to people who started their careers in the last 20 years so that the information would not be too outdated.
 
 I hypothesized that I would find the most signal in looking first at the predictive power of education features on each of the 2010 Standard Occupational Classification's (https://www.bls.gov/soc/soc_2010_user_guide.pdf[SOC]) Major occupation groups. I examined the homogeneity of the major occupation groups to feel out whether they could be meaningfully predicted. For example, I was concerned 'Management' included both retail managers and executives, which are disparate, but the SOC has grouped first-line supervisors into their related groups. For this reason I decided not to cluster a new target to represent occupation on this first pass, since I think this target is adequate. Here is the distribution:
 
@@ -59,7 +59,7 @@ image::violin_eduattain_majsocp_ord.png[violin plot]
 
 Clearly some occupations involve more schooling, as expected. Here's how I scoped the project down:
 
-image::galv_capstone.jpeg[process flow,500,600]
+image::galv_capstone.jpeg[process flow,500,625]
 
 
 ## Results:
@@ -70,19 +70,19 @@ image::dumb-untuned-tree-3-features-2018-11-13.png[dumb metrics]
 
 I examined the Computer and Math occupation as a target before pursuing the full project since it was promising. Of 8 different classification models, tree-based learning scored best across metrics. Although I found the majority of predictive power in the education variables of undergraduate major and educational attainment, location may be nearly as important as having a CS degree. 
 
-image:ROC_occp15_tunedrf_edu.png[roc1,300,300] image:ROC_occp15_tunedrf_freewill.png[roc2] 
+image:ROC_occp15_tunedrf_edu.png[roc1,400,300] image:ROC_occp15_tunedrf_freewill.png[roc2,400,300] 
 
-image::partialdep_gradboost_occp15.png[partial dependences]
+image::partial_dep.png[partial dependences]
 
-Working in for-profit sector and English fluency also appeared to matter. As next steps I may improve dimensionality reduction, engineer more features, and create an only-women model which can take into account features like children which could not be part of the current dataset since it would cause leakage of gender as a feature. 
+What these partial dependencies from the gradient boosting model show are features which are important to the model. X-axis is how the feature x changes and y is the log-likelihood of the target class being positive (the person being a computer professional). In addition to these, working in for-profit sector and English fluency also appeared to matter. As next steps I may improve dimensionality reduction, engineer more features, and create an only-women model which can take into account features like children which could not be part of the current dataset since it would cause leakage of gender as a feature. 
 
+## Evaluation
+I did not get as much signal from the non-education features as I had hoped. For those occupations education does not predict well, my signal may be weak. However, I have enough confidence to proceed to adding more data from earlier years and other states. I am especially feeling positive about location and creating a heatmap based on the PUMS areas. Each PUMS area contains around 100k people, so I could have a per-capita representation, allowing for a map that does not simply point out cities. It may also be useful in identifying shortages or surpluses.
 
+With feedback, I revised the proposed functionality of the webapp:
+Users enter their desired occupation and their demographic information and I run a model for them, which outputs a predicted likelihood of that person being that occupation. I present appropriate resources based on the likelihood, for example more supportive vs more accelerated, and recommend actions corresponding to the features that the individual can control.
 
-
-
-## Alternate Goal
-Users enter their desired occupation and their demographic information and I run a model for them, which outputs a predicted likelihood of of that person being that occupation. I present appropriate resources based on the likelihood, for example more supportive vs more accelerated, and recommend actions corresponding to the features that the individual can control. Some occupations, for example sales and healthcare support, will not likely recommed increased educational achievement in the form of degrees, since I found little support for that relationship so far.
+https://github.com/DMSaunders/Predicting-Occupation-From-Life-Decisions/blob/master/reports/Predicting%20Occupation%20Based%20on%20Life%20Decisions%20(abridged).pdf[See presentation slides here]
 
 *For each individual, I have their relationship to the survey-taker, including family relationships like stepson and non-family ones like housemate or boarder. This feature needs some engineering. I surmise that someone can change their living situation by moving into a different household, allowing this to be a 'freewill feature'.
 
-https://github.com/DMSaunders/Predicting-Occupation-From-Life-Decisions/blob/master/reports/Predicting%20Occupation%20Based%20on%20Life%20Decisions%20(abridged).pdf[See slides here]
