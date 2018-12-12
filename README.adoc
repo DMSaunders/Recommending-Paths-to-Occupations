@@ -40,7 +40,7 @@ Many projects have explored the effects of these features on individuals' report
 
 ##  Tech Stack & Data Source
 
-image:pandas.jpg[pandas] image:scikit.png[scikit] image:matplot.png[matplot] image:Jupyter-logo.png[jupyter] image:ec2.png[ec2]
+image:pandas.jpg[pandas,100,100] image:scikit.png[scikit,100,100] image:matplot.png[matplot,100,100] image:Jupyter-logo.png[jupyter,100,100] image:ec2.png[ec2,100,100]
 
 Coded in Python including Pandas, scikit-learn, and matplotlib. Challenged by runtime while gridsearching models, minimal tuning gains, and feature selection. Learned to run pipelines and fire up a model in Jupyter on an AWS EC2 instance in 7 minutes. 
 
@@ -59,7 +59,7 @@ image::violin_eduattain_majsocp_ord.png[violin plot]
 
 Clearly some occupations involve more schooling, as expected. Here's how I scoped the project down:
 
-image::galv_capstone.jpeg[process flow]
+image::galv_capstone.jpeg[process flow,300,400]
 
 
 ## Results:
@@ -70,7 +70,7 @@ image::dumb-untuned-tree-3-features-2018-11-13.png[dumb metrics]
 
 I examined the Computer and Math occupation as a target before pursuing the full project since it was promising. Of 8 different classification models, tree-based learning scored best across metrics. Although I found the majority of predictive power in the education variables of undergraduate major and educational attainment, location may be nearly as important as having a CS degree. 
 
-image:ROC_occp15_tunedrf_edu.png[roc1] image:ROC_occp15_tunedrf_freewill.png[roc2] 
+image:ROC_occp15_tunedrf_edu.png[roc1,300,300] image:ROC_occp15_tunedrf_freewill.png[roc2,300,300] 
 
 image::partialdep_gradboost_occp15.png[partial dependences]
 
