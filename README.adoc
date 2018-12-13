@@ -40,7 +40,7 @@ Many projects have explored the effects of these features on individuals' report
 
 ##  Tech Stack & Data Source
 
-image:pandas.jpg[pandas,200,150] image:scikit.png[scikit,200,100] image:matplot.png[matplot,250,100] image:Jupyter-logo.png[jupyter,100,100] image:ec2.png[ec2,200,100]
+image:pandas.jpg[pandas,100,75] image:scikit.png[scikit,100,50] image:matplot.png[matplot,125,50] image:Jupyter-logo.png[jupyter,100,100] image:ec2.png[ec2,200,100]
 
 Coded in Python including Pandas, scikit-learn, and matplotlib. Challenged by runtime while gridsearching models, minimal tuning gains, and feature selection. Learned to run pipelines and fire up a model in Jupyter on an AWS EC2 instance in 7 minutes. 
 
@@ -77,10 +77,10 @@ image::partial_dep.png[partial dependences]
 What these partial dependencies from the gradient boosting model show are features (mainly names of undergraduate degrees) which are important to the model. X-axis is how the feature x changes and y is the log-likelihood of the target class being positive (the person being a computer professional). In addition to these, working in for-profit sector and English fluency also appeared to matter. As next steps I may improve dimensionality reduction, engineer more features, and create an only-women model which can take into account features like children which could not be part of the current dataset since it would cause leakage of gender as a feature. 
 
 ## Evaluation
-I did not get as much signal from the non-education features as I had hoped. For those occupations education does not predict well, my signal may be weak. However, I have enough confidence to proceed to adding more data from earlier years and other states. I am especially feeling positive about location and creating a heatmap based on the PUMS areas. Each PUMS area contains around 100k people, so I could have a per-capita representation, allowing for a map that does not simply point out cities. It may also be useful in identifying shortages or surpluses.
+I did not get as much signal from the non-education features as I had hoped. For those occupations that education does not predict well, my signal may be weak. However, I have enough confidence to proceed to adding more data from earlier years and other states. I am especially feeling positive about location and creating a heatmap based on the PUMS areas. Each PUMS area contains around 100k people, so I could have a per-capita representation, allowing for a map that does not simply point out cities. It may also be useful in identifying shortages or surpluses.
 
 With feedback, I revised the proposed functionality of the webapp:
-Users enter their desired occupation and their demographic information and I run a model for them, which outputs a predicted likelihood of that person being that occupation. I present appropriate resources based on the likelihood, for example more supportive vs more accelerated, and recommend actions corresponding to the features that the individual can control.
+Users enter their desired occupation and their demographic information and I run a model for them, which outputs but may not _display_ a predicted likelihood of that person being that occupation. I present appropriate resources based on the likelihood, for example more supportive vs more accelerated, and recommend actions corresponding to the features that the individual can control. 
 
 https://github.com/DMSaunders/Predicting-Occupation-From-Life-Decisions/blob/master/reports/Predicting%20Occupation%20Based%20on%20Life%20Decisions%20(abridged).pdf[See presentation slides here]
 
