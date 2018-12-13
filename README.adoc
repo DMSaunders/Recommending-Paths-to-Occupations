@@ -40,7 +40,7 @@ Many projects have explored the effects of these features on individuals' report
 
 ##  Tech Stack & Data Source
 
-image:pandas.jpg[pandas,100,75] image:scikit.png[scikit,100,50] image:matplot.png[matplot,125,50] image:Jupyter-logo.png[jupyter,100,100] image:ec2.png[ec2,200,100]
+image:pandas.jpg[pandas,100,75] image:scikit.png[scikit,100,50] image:matplot.png[matplot,125,50] image:Jupyter-logo.png[jupyter,100,100] image:ec2.png[ec2,100,50]
 
 Coded in Python including Pandas, scikit-learn, and matplotlib. Challenged by runtime while gridsearching models, minimal tuning gains, and feature selection. Learned to run pipelines and fire up a model in Jupyter on an AWS EC2 instance in 7 minutes. 
 
