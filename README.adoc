@@ -1,4 +1,4 @@
-= Predicting Occupation Based on Life Decisions: An agile data science approach
+= Recommending Paths to Occupations: An agile data science approach
 :idprefix:
 :idseparator: -
 :sectanchors:
@@ -21,7 +21,7 @@ endif::[]
 toc::[]
 
 
-## Purpose: What impact do our choices have on our occupations?
+## Purpose: Are our choices predictive enough of our occupations that courses of action could be recommended to career-seekers?
 *Actionable Research Question: What are the strongest predictors of a person's occupation among all the features an individual can control included in the 2017 U.S. Census Bureau Data?*
 
 The "Freewill" Features (things people can control):
