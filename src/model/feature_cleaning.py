@@ -5,14 +5,13 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-#FIRST STEP
+#FIRST STEP    #
 def load_dfs() -> 'dfs':
     '''loads all the csvs and text needed'''
 
     df = pd.read_csv('~/galv/ACS-PUMS-data/csv_pca/psam_p06.csv')
 
-    fieldofdegree_df = pd.read_csv('~/galv/capstone/resources/ACSPUMS2017CodeLists-FieldofDegree.csv', 
-                            header=2, usecols=['2017 PUMS code', '2017 PUMS Field of Degree Description'])
+    fieldofdegree_df = pd.read_csv('~/galv/capstone/resources/ACSPUMS2017CodeLists-FieldofDegree.csv', header=None, sep='\t', names=['2017 PUMS code', '2017 PUMS Field of Degree Description','thing1', 'thing2'], usecols=['2017 PUMS code', '2017 PUMS Field of Degree Description'])
 
     SOCP_labels = {'11': 'Management', 
                 '13': 'Business and Financial Operations', 
@@ -127,9 +126,14 @@ def single_occ_target_specific(youngemp_df) -> 'df':
     youngemp_df['SOCP_computer'] = youngemp_df.SOCP.map(mymap).fillna(0).astype(int)
     return youngemp_df
 
-#SECOND PART 2 ALTERNATIVE - SOC 
+#SECOND PART 2 ALTERNATIVE - SOC 29
+def soc_29_target(youngemp_df) -> 'df':
+    '''single occ target for experimenting, run after clean that target'''
+    mymap = {'29': 1}
+    youngemp_df['MAJ_SOCP_29'] = youngemp_df.MAJ_SOCP.map(mymap).fillna(0).astype(int)
+    return youngemp_df
 
-# THIRD
+# THIRD - EDUDF
 def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
     '''df used to examine relationships between education and SOCP. 
     this is the initial feature subset. make this first. then the NAICSP_SOCP_df, or the full 16 features
@@ -196,7 +200,7 @@ def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> '
 
 
 
-# THIRD ALTERNATE
+# THIRD ALTERNATE - FREEWILL
 def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
     ''' df used to examine relationship between all 16 free will features and target'''
     
@@ -245,7 +249,7 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
 
 
     #------------------------------------------after this part is new for freewill variables, until 'before dummies'
-    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'FOD1P', 'MAJ_SOCP_15',
+    freewill_df = edu_df[['SERIALNO','SOCP', 'MAJ_SOCP', 'MAJ_SOCP_labels', 'FOD1P', 'MAJ_SOCP_29',
                         'FOD2P', 'FOD1P_labels', 'FOD1P_MAJ_labels', 'FOD2P_labels', 'SCHL', 'SCHL_labels', 'PUMA', 'COW', 
                         'ENG', 'MARHT', 'MSP', 'RELP', 'FMILSP']]
     #update the target as you change it
