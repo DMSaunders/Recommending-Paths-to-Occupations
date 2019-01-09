@@ -5,7 +5,7 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-#FIRST
+#FIRST STEP
 def load_dfs() -> 'dfs':
     '''loads all the csvs and text needed'''
 
@@ -102,7 +102,7 @@ def clean_that_target(df, SOCP_labels) -> 'df':
     return youngemp_df
 
 
-#SECOND PART 2 OPTIONAL
+#SECOND PART 2 OPTIONAL - SOC 15
 def single_occ_target(youngemp_df) -> 'df':
     '''single occ target for experimenting, run after clean that target'''
     mymap = {'15': 1}
@@ -126,6 +126,8 @@ def single_occ_target_specific(youngemp_df) -> 'df':
     '151199':1}
     youngemp_df['SOCP_computer'] = youngemp_df.SOCP.map(mymap).fillna(0).astype(int)
     return youngemp_df
+
+#SECOND PART 2 ALTERNATIVE - SOC 
 
 # THIRD
 def create_edu_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors) -> 'df':
@@ -272,31 +274,9 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     4:'Not at all'}
     freewill_df.ENG = freewill_df.ENG.fillna(9999)
     freewill_df['ENG_labels'] = freewill_df.ENG.map(ENG_df)
-    
-    #REMOVED
-        #JWTR
-        # JWTR_df = {
-        # 9999:'N/A',
-        # 1:'Automobile',
-        # 2:'Bus',
-        # 3:'Streetcar',
-        # 4:'Subway',
-        # 5:'Railroad',
-        # 6:'Ferryboat',
-        # 7:'Taxicab',
-        # 8:'Motorcycle',
-        # 9:'Bicycle',
-        # 10:'Walked',
-        # 11:'Worked at home',
-        # 12:'Other method'}
-        # freewill_df.JWTR = freewill_df.JWTR.fillna(9999)
-        # freewill_df['JWTR_labels'] = freewill_df.JWTR.map(JWTR_df)
 
-    #REMOVED     
-    #JWMNP  first real numeric variable!! Travel time to work
-    #freewill_df.JWMNP = freewill_df.JWMNP.fillna(0)
 
-    #MARHT
+    #MARHT  remember these might corr with age
     MARHT_df = {
     9999: 'Never married',
     1:'Once',
@@ -305,35 +285,7 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     freewill_df.MARHT = freewill_df.MARHT.fillna(9999)
     freewill_df['MARHT_labels'] = freewill_df.MARHT.map(MARHT_df)
 
-    #REMOVED
-    # WKHP   numeric, working hours
-    #freewill_df.WKHP = freewill_df.WKHP.fillna(0)
-
-    #REMOVED
-    # WKW    working weeks past 12 months
-    #freewill_df.WKW = freewill_df.WKW.fillna(0)
-
-    # WKW_df ={
-        # 0:'N/A',
-        # 1:'50 to 52',
-        # 2:'48 to 49',
-        # 3:'40 to 47',
-        # 4:'27 to 39',
-        # 5:'14 to 26',
-        # 6:'< 14'}
-        # freewill_df['WKW_labels'] = freewill_df.WKW.map(WKW_df)
-
-        # switch_WKW_df = {
-        # 'N/A':1,
-        # '< 14':2,
-        # '14 to 26':3,
-        # '27 to 39':4,
-        # '40 to 47':5,
-        # '48 to 49':6,
-        # '50 to 52':7}
-        # freewill_df['WKW_ord'] = freewill_df.WKW_labels.map(switch_WKW_df)
-
-    #MSP married spouse present - remember these will corr with age
+    #MSP married spouse present - remember these might corr with age
     freewill_df.MSP.fillna(9999)
     MSP_df = {
     9999:'N/A (age less than 15 years)',
@@ -345,7 +297,7 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
     6	:'Never married'}
     freewill_df['MSP_labels'] = freewill_df.MSP.map(MSP_df)
 
-    # #SFR  not populous
+    # #SFR  not populous enough
     # SFR_df = {
     # 9999:'N/A (GQ/not in a subfamily)',
     # 1   :'Husband/wife no children',
@@ -427,7 +379,7 @@ def create_freewill_df(youngemp_df, fieldofdegree_df, schl_labels, major_majors)
 
 
 
-# this is used to cluster the target later
+# this is used to potentially cluster the target if desired later
 def create_NAICSP_SOCP_df(youngemp_df, NAICSP_labels_df, MAJ_NAICSP_labels_df) -> 'df':
     '''df used to examine relationships between NAICS and SOCP, for clustering a new target'''
 
