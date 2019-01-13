@@ -21,7 +21,8 @@ endif::[]
 toc::[]
 
 
-## Purpose: Are our choices predictive enough of our occupations that courses of action could be recommended to career-seekers?
+## Purpose: Are our choices predictive enough of our occupations that courses of action can be recommended to career-seekers? Can these paths improve equity of access to hard-to-reach careers?
+
 *Actionable Research Question: What are the strongest predictors of a person's occupation among all the features an individual can control included in the 2017 U.S. Census Bureau Data?*
 
 The "Freewill" Features (things people can control):
@@ -36,7 +37,7 @@ The "Freewill" Features (things people can control):
 * Relationship within Household*
 * Working in Private vs Public Sector vs Self-Employed
 
-Many projects have explored the effects of these features on individuals' reported income. I'm looking at individuals' occupation since it also contributes to well-being, especially when there is a good job fit with the individual. As the end goal for this project, it would be ideal if young adults could enter their desired occupation into a web app and see its most predictive features as a suggestion of paths others have successfully taken to that occupation. This is proposed as "tried and true" rather than optimal. The site would also address correlations between these controllable predictors and uncontrollable demographics like wealth and race and emphasize that the best way to change entrenched patterns is to focus on what you have the power to change.
+Many projects have explored the effects of these features on individuals' reported income. I'm looking at individuals' occupation since it also contributes to well-being, especially when there is a good job fit with the individual. As the end goal for this project, it would be ideal if young adults could enter their desired occupation into a web app and see its most predictive features as a suggestion of paths others have successfully taken to that occupation. This is proposed as "tried and true" rather than optimal. They could also enter their demographics and receive tailored resources based on their likelihood of achieving that occupation, which will be most impactful for disadvantaged individuals desiring prestigious occupations. The best way to change entrenched patterns is to focus on what you have the power to change.
 
 ##  Tech Stack & Data Source
 
@@ -81,6 +82,8 @@ I did not get as much signal from the non-education features as I had hoped on t
 
 With feedback, I revised the proposed functionality of the webapp:
 Users enter their desired occupation and their demographic information and I run a model for them, which outputs but may not _display_ a predicted likelihood of that person being that occupation. I present appropriate resources based on the likelihood, for example more supportive vs more accelerated, and recommend actions corresponding to the features that the individual can control. 
+
+image::capstone_wireframe_2.0.png[website wireframe]
 
 https://github.com/DMSaunders/Predicting-Occupation-From-Life-Decisions/blob/master/reports/Predicting%20Occupation%20Based%20on%20Life%20Decisions%20(abridged).pdf[See presentation slides here]
 
