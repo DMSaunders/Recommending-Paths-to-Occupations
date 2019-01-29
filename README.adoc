@@ -73,9 +73,13 @@ I examined the Computer and Math occupation as a target before pursuing the full
 
 image:ROC_occp15_tunedrf_edu.png[roc1,400,300] image:ROC_occp15_tunedrf_freewill.png[roc2,400,300] 
 
-image::partial_dep.png[partial dependences]
+image::partial_dep.png[partial dependencies]
 
 What these partial dependencies from the gradient boosting model show are features (mainly names of undergraduate degrees) which are important to the model. X-axis is how the feature x changes and y is the log-likelihood of the target class being positive (the person being a computer professional). In addition to these, working in for-profit sector and English fluency also appeared to matter. As next steps I may improve dimensionality reduction, engineer more features, and create an only-women model which can take into account features like children which could not be part of the current dataset since it would cause leakage of gender as a feature. 
+
+I also lightly tuned a model for the healthcare practitioner occupation (mainly highly educated professionals, as opposed to healthcare support), another promising one. My f1 score was .378, with an area under the curve of .62, which is not great. However, I expect I could get this higher with more work. Partial dependencies show related majors, professional, associates, and doctorate degrees having an impact. A second undergrad major in nursing makes a striking appearance, worth investigating. This time location was not distinguishing. The first nine plots are shown. 
+
+image::partial_dep_healthcarepract1.png[partial dependencies]
 
 ## Evaluation
 I did not get as much signal from the non-education features as I had hoped on this initial occupation. For those occupations that education does not predict well, my signal may be weak. However, I have enough confidence to proceed to adding more data from earlier years and other states. I am especially feeling positive about location and creating a heatmap based on the PUMS areas. Each PUMS area contains around 100k people, so I could have a per-capita representation, allowing for a map that does not simply point out cities. It may also be useful in identifying shortages or surpluses.
@@ -85,7 +89,7 @@ Users enter their desired occupation and their demographic information and I run
 
 image::capstone_wireframe_2.0.png[website wireframe]
 
-https://github.com/DMSaunders/Predicting-Occupation-From-Life-Decisions/blob/master/reports/Predicting%20Occupation%20Based%20on%20Life%20Decisions%20(abridged).pdf[See presentation slides here]
+https://github.com/DMSaunders/Predicting-Occupation-From-Life-Decisions/blob/master/reports/Predicting%20Occupation%20Based%20on%20Life%20Decisions.pdf[See presentation slides here]
 
 *For each individual, I have their relationship to the survey-taker, including family relationships like stepson and non-family ones like housemate or boarder. This feature needs some engineering. I surmise that someone can change their living situation by moving into a different household, allowing this to be a 'freewill feature'.
 
